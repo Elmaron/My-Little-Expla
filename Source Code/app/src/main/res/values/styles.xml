@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="SearchBar" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/edit_text_background</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/primary</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="Article">
+        <item name="android:background">@drawable/article_background</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_marginBottom">20dp</item>
+    </style>
+
+    <style name="Article.Title" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="Article.Description" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="Title" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">40sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="Title.Header1">
+        <item name="android:textSize">25sp</item>
+    </style>
+
+    <style name="ContentText" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">18sp</item>
+    </style>
+</resources>

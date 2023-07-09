@@ -1,0 +1,9 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MyLittleExpla" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="editTextStyle">@style/SearchBar</item>
+    </style>
+
+    <style name="Theme.MyLittleExpla" parent="Base.Theme.MyLittleExpla">
+    </style>
+</resources>
