@@ -20,7 +20,7 @@
 
     <TextView
         android:id="@+id/textView5"
-        style="@style/Article.Text.Description"
+        style="@style/Text.Description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -1082,13 +1082,13 @@
 
     <TextView
         android:id="@+id/textView19"
-        android:layout_width="wrap_content"
+        style="@style/Text.Hint"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Hinweis: Die Tastenkombinationen gelten nur für das deutsche Tastaturlayout. In anderen Sprachen können die Tasten abweichen."
-        style="@style/Article.Text.Description"
+        android:text="Hinweis: Die Tastenkombinationen gelten nur für das deutsche Tastaturlayout. In anderen Sprachen können die Kombinationen abweichen."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

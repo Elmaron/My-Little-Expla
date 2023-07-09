@@ -14,7 +14,7 @@
     </style>
 
     <style name="Article.Text" parent="Widget.AppCompat.TextView">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/TextColorArticle</item>
     </style>
 
     <style name="Article.Text.Title" parent="Article.Text">
@@ -25,6 +25,21 @@
     <style name="Article.Text.Description" parent="Article.Text">
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="Text" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/TextcolorPrimary</item>
+    </style>
+
+    <style name="Text.Description" parent="Text">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.Hint" parent="Text">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textAlignment">center</item>
     </style>
 
     <style name="Title" parent="Widget.AppCompat.TextView">

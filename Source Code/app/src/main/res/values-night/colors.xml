@@ -2,7 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="TextcolorPrimary">@android:color/primary_text_light</color>
+    <color name="TextcolorPrimary">@android:color/primary_text_dark</color>
     <color name="TextColorArticle">@android:color/primary_text_dark</color>
     <color name="primary">#FFD0D0D0</color>
     <color name="background">#FF550F55</color>
