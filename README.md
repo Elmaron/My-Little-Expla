@@ -1,2 +1,14 @@
 # My Little Expla
- My Little Expla ist eine App, die entwickelt wurde, um dich mithilfe von hangemachten Artikeln beim Lernen und Ausführen von Dingen auf deinem Smartphone zu unterstützen.
+
+### BESCHREIBUNG
+My Little Expla ist eine App, die entwickelt wurde, um dich mithilfe von hangemachten Artikeln beim Lernen und Ausführen von Dingen auf deinem Smartphone zu unterstützen.
+
+
+### INSTALLATION
+Um die App installieren zu können, musst du zuvor in den Einstellungen das Installieren von Apps aus unbekannter Quelle zulassen. Dafür musst du die Einstellungen deiner App öffnen und bei "Apps aus unbekannter Quelle installieren" aktivieren. Das folgende Video zeigt, wie du es auf deinem Smartphone aktivierst:  
+
+
+
+Dann musst du nur die aktuelle Datei herunterladen und sie antippen, um sie zu installieren. Die heruntergeladene Datei sollte in etwa heißen:  
+__app-alpha-#_#.apk__  
+(Das # steht für eine beliebige Zahl.)
