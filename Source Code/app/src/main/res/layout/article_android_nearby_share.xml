@@ -58,6 +58,20 @@
                 android:layout_height="wrap_content"
                 style="@style/ContentText"
                 android:text="Um Dateien wie bei Apples Airdrop schnell, sicher und einfach an andere Geräte zu senden, gibt es auf jedem Android Gerät eine Funktion, die sich Nearby Share nennt. Da diese auf jedem Gerät vorinstalliert ist, kann man sie einfach verwenden, ohne sich Gedanken um eine Installation und komplizierte Einrichtung machen zu müssen." />
+
+            <TextView
+                android:id="@+id/textVie3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Title.Header1"
+                android:text="Wie funktioniert Nearby Share?" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ContentText"
+                android:text="Erklärung" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

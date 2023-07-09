@@ -1,0 +1,1095 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView3"
+        style="@style/Title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Shortcuts für alles Mögliche"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView5"
+        style="@style/Article.Text.Description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="In diesem Artikel findet sich eine Tabelle mit allerlei möglichen Shortcuts. Seien es allseits bekannte Dinge, wie kopieren und einfügen, aber auch Dinge wie programmspezifischere Funktionen sind dabei. "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView19"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Title.Header1"
+                android:text="Generelle Tastenkombinationen" />
+
+            <LinearLayout
+                style="@style/Article"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView70"
+                    style="@style/Article.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rückgangig" />
+
+                <TextView
+                    android:id="@+id/textView71"
+                    style="@style/Article.Text.Description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="In fast jedem Programm und auch auf dem Desktop von Windows kann mit dieser Tastenkombination jeder Fehler rückgängig gemacht werden." />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView72"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Tastenkombination: " />
+
+                        <TextView
+                            android:id="@+id/textView73"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="STRG + Z" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView74"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Plattformen:" />
+
+                        <TextView
+                            android:id="@+id/textView75"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Windows, Linux, Android, IOS" />
+                    </TableRow>
+
+                </TableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Article"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView80"
+                    style="@style/Article.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wiederherstellen" />
+
+                <TextView
+                    android:id="@+id/textView81"
+                    style="@style/Article.Text.Description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Genauso, wie man Schritte zurück gehen kann, lassen sich die zurückgegangen Schritte auch wiederherstellen. Dies funktioniert ebenfalls in fast allen Programmen. Auf Computern kann in manchen Fällen das Programm aber auch auf die Alternative zurückgreifen, jedoch wird eine dieser Kombinationen immer gehen." />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView82"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Tastenkombination: " />
+
+                        <TextView
+                            android:id="@+id/textView83"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="STRG + Y" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView84"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Alternative Kombination:" />
+
+                        <TextView
+                            android:id="@+id/textView85"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="STRG + SHIFT + Z" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView86"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Plattformen:" />
+
+                        <TextView
+                            android:id="@+id/textView87"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Windows, Linux, Android, IOS" />
+                    </TableRow>
+
+                </TableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Article"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView160"
+                    style="@style/Article.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Alles markieren" />
+
+                <TextView
+                    android:id="@+id/textView161"
+                    style="@style/Article.Text.Description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Durch diese Tastenkombination wird der gesamte Inhalt im bearbeitbaren Bereich markiert." />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView162"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Tastenkombination: " />
+
+                        <TextView
+                            android:id="@+id/textView163"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="STRG + A" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView164"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Plattformen:" />
+
+                        <TextView
+                            android:id="@+id/textView165"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Windows, Linux, Android, IOS" />
+                    </TableRow>
+
+                </TableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Article"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView12"
+                    style="@style/Article.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kopieren" />
+
+                <TextView
+                    android:id="@+id/textView13"
+                    style="@style/Article.Text.Description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kopiert den markierten Inhalt." />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView20"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Tastenkombination: " />
+
+                        <TextView
+                            android:id="@+id/textView11"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="STRG + C" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView21"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Plattformen:" />
+
+                        <TextView
+                            android:id="@+id/textView14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Windows, Linux, Android, IOS" />
+                    </TableRow>
+
+                </TableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Article"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView40"
+                    style="@style/Article.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ausschneiden" />
+
+                <TextView
+                    android:id="@+id/textView41"
+                    style="@style/Article.Text.Description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kopiert den markierten Inhalt in die Zwischenablage und löscht ihn an der markierten Stelle." />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView43"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Tastenkombination: " />
+
+                        <TextView
+                            android:id="@+id/textView44"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="STRG + X" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView45"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Plattformen:" />
+
+                        <TextView
+                            android:id="@+id/textView46"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Windows, Linux, Android, IOS" />
+                    </TableRow>
+
+                </TableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Article"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView47"
+                    style="@style/Article.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Einfügen" />
+
+                <TextView
+                    android:id="@+id/textView48"
+                    style="@style/Article.Text.Description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fügt den Inhalt aus der Zwischenablage an der Zeigerposition ein." />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView49"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Tastenkombination: " />
+
+                        <TextView
+                            android:id="@+id/textView50"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="STRG + V" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView51"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Plattformen:" />
+
+                        <TextView
+                            android:id="@+id/textView52"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Windows, Linux, Android, IOS" />
+                    </TableRow>
+
+                </TableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Article"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView53"
+                    style="@style/Article.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Desktop/Home-Screen" />
+
+                <TextView
+                    android:id="@+id/textView54"
+                    style="@style/Article.Text.Description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Minimiert alle Programme und zeigt den Desktop an. Auf Android kehrt man mit dieser Tastenkombination zum Home-Screen zurück. Auf Windows kann man mit dem gleichen Shortcut wieder alle Programme anzeigen, die zuvor minimiert wurden." />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView55"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Tastenkombination: " />
+
+                        <TextView
+                            android:id="@+id/textView56"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="STRG + D" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView57"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Plattformen:" />
+
+                        <TextView
+                            android:id="@+id/textView58"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Windows, Android" />
+                    </TableRow>
+
+                </TableLayout>
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="5dp" />
+
+            <TextView
+                android:id="@+id/textView59"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Title.Header1"
+                android:text="Word" />
+
+            <LinearLayout
+                style="@style/Article"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView60"
+                    style="@style/Article.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fetter Text" />
+
+                <TextView
+                    android:id="@+id/textView61"
+                    style="@style/Article.Text.Description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mit dieser Tastenkombination kann Text fett gemacht oder wieder in seine normale Form gebracht werden." />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView62"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Tastenkombination: " />
+
+                        <TextView
+                            android:id="@+id/textView63"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="STRG + F" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView64"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Plattformen:" />
+
+                        <TextView
+                            android:id="@+id/textView65"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Windows, Android" />
+                    </TableRow>
+
+                </TableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Article"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView90"
+                    style="@style/Article.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kursiver Text" />
+
+                <TextView
+                    android:id="@+id/textView91"
+                    style="@style/Article.Text.Description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mit dieser Tastenkombination kann Text kursiv gemacht oder wieder in seine normale Form gebracht werden." />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView92"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Tastenkombination: " />
+
+                        <TextView
+                            android:id="@+id/textView93"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="STRG + K" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView94"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Plattformen:" />
+
+                        <TextView
+                            android:id="@+id/textView95"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Windows, Android" />
+                    </TableRow>
+
+                </TableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Article"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView100"
+                    style="@style/Article.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Unterstrichener Text" />
+
+                <TextView
+                    android:id="@+id/textView101"
+                    style="@style/Article.Text.Description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mit dieser Tastenkombination kann Text unterstrichen oder wieder in seine normale Form gebracht werden." />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView102"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Tastenkombination: " />
+
+                        <TextView
+                            android:id="@+id/textView103"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="STRG + U" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView104"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Plattformen:" />
+
+                        <TextView
+                            android:id="@+id/textView105"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Windows, Android" />
+                    </TableRow>
+
+                </TableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Article"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView110"
+                    style="@style/Article.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Absatz links ausrichten" />
+
+                <TextView
+                    android:id="@+id/textView111"
+                    style="@style/Article.Text.Description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mit dieser Tastenkombination kann Text linksbündig ausgerichtet werden." />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView112"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Tastenkombination: " />
+
+                        <TextView
+                            android:id="@+id/textView113"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="STRG + L" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView114"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Plattformen:" />
+
+                        <TextView
+                            android:id="@+id/textView115"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Windows, Android" />
+                    </TableRow>
+
+                </TableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Article"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView120"
+                    style="@style/Article.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Absatz mittig ausrichten" />
+
+                <TextView
+                    android:id="@+id/textView121"
+                    style="@style/Article.Text.Description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mit dieser Tastenkombination kann Text mittig ausgerichtet werden. Dies gilt für den Absatz, in dem sich der Textcursor befindet." />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView122"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Tastenkombination: " />
+
+                        <TextView
+                            android:id="@+id/textView123"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="STRG + E" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView124"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Plattformen:" />
+
+                        <TextView
+                            android:id="@+id/textView125"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Windows, Android" />
+                    </TableRow>
+
+                </TableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Article"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView130"
+                    style="@style/Article.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Absatz rechts ausrichten" />
+
+                <TextView
+                    android:id="@+id/textView131"
+                    style="@style/Article.Text.Description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mit dieser Tastenkombination kann Text rechtsbündig ausgerichtet werden." />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView132"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Tastenkombination: " />
+
+                        <TextView
+                            android:id="@+id/textView133"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="STRG + E" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView134"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Plattformen:" />
+
+                        <TextView
+                            android:id="@+id/textView135"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Windows, Android" />
+                    </TableRow>
+
+                </TableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Article"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView140"
+                    style="@style/Article.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Blocksatz" />
+
+                <TextView
+                    android:id="@+id/textView141"
+                    style="@style/Article.Text.Description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mit dieser Tastenkombination kann Text im Absatz als Blocksatz ausgerichtet werden. (Gleichmäßiger Seitenabstand)" />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView142"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Tastenkombination: " />
+
+                        <TextView
+                            android:id="@+id/textView143"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="STRG + B" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView144"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Plattformen:" />
+
+                        <TextView
+                            android:id="@+id/textView145"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Windows, Android" />
+                    </TableRow>
+
+                </TableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Article"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView6150"
+                    style="@style/Article.Text.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Textbearbeitung: Schriftart ändern" />
+
+                <TextView
+                    android:id="@+id/textView151"
+                    style="@style/Article.Text.Description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mit dieser Tastenkombination lässt sich ein Fenster öffnen, in welchem man mit den Pfeilen auf der Tastatur durch die Schriftarten wechseln kann. Alternativ kann man auch schnell nach einer Schriftart suchen, sollte man den Namen kennen. Mit Tab kann man zwischen den einzelnen Feldern wehcseln und dort ebenfalls mit der Tastatur oder den Pfeilen eingaben machen. Es lässt sich an jeder Stelle mit Enter bestätigen, während man mit Escape das Feld verlässt, ohne die Änderungen zu speichern." />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView152"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Tastenkombination: " />
+
+                        <TextView
+                            android:id="@+id/textView153"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="STRG + SHIFT + A" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/textView154"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Plattformen:" />
+
+                        <TextView
+                            android:id="@+id/textView155"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Article.Text"
+                            android:text="Windows, Android" />
+                    </TableRow>
+
+                </TableLayout>
+
+            </LinearLayout>
+
+            <!-- Next Usable Textview ID: 170 -->
+
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Hinweis: Die Tastenkombinationen gelten nur für das deutsche Tastaturlayout. In anderen Sprachen können die Tasten abweichen."
+        style="@style/Article.Text.Description"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

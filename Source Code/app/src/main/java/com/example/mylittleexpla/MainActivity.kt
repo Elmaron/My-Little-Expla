@@ -22,7 +22,8 @@ class MainActivity : AppCompatActivity() {
     private data class Article(val title: String, val shortDescription: String, val tags: List<String>, val articleID: Int)
 
     private val myArticles: List<Article> = listOf(
-        Article("Dateien freigeben (Android)", "M\u00F6glichkeiten der Dateifreigabe in Android", listOf("Nearby Share", "Dateifreigabe", "Android"), R.layout.article_android_nearby_share)
+        Article("Dateien freigeben (Android)", "M\u00F6glichkeiten der Dateifreigabe in Android", listOf("Nearby Share", "Dateifreigabe", "Android"), R.layout.article_android_nearby_share),
+        Article("Tastenkombinationen", "Verschiedene Tastenkombinationen für alle möglichen Plattformaen und Programme", listOf("Shortcuts", "Tastenkombinationen", "Word", "Grundlagen", "Grundfunktionen"), R.layout.article_general_shortcuts)
     )
 
     private lateinit var articleHolder: LinearLayout
@@ -52,8 +53,8 @@ class MainActivity : AppCompatActivity() {
         for(article in myArticles)
         {
             val layout = LinearLayout(ContextThemeWrapper(this, R.style.Article))
-            val title = TextView(ContextThemeWrapper(this, R.style.Article_Title))
-            val description = TextView(ContextThemeWrapper(this, R.style.Article_Description))
+            val title = TextView(ContextThemeWrapper(this, R.style.Article_Text_Title))
+            val description = TextView(ContextThemeWrapper(this, R.style.Article_Text_Description))
 
             title.text = article.title
             description.text = article.shortDescription
