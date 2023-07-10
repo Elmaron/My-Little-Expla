@@ -53,6 +53,7 @@ ALPHA
         - Kategorien
         - alle Artikel
         - Favouriten
+    - Markierung der Artikel in unterschiedlichen Farben je nach Artikellänge (Kurzinfo/Erklärung, Normal, Ausführlich)
     
     Neue Artikel
     - Dateifreigabe mit Kabel, USB-Sticks & Festplatten (Windows & Android)
