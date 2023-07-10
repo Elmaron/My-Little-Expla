@@ -1,6 +1,6 @@
 # My Little Expla
 
-Hier findest du den aktuellsten Release: https://github.com/Elmaron/My-Little-Expla/releases/latest
+Hier findest du den aktuellsten Release: https://github.com/Elmaron/My-Little-Expla/releases/latest  
 Hier findest du Informationen zu kommenden Funktionen und Veröffentlichungen: https://github.com/Elmaron/My-Little-Expla/blob/main/ROADMAP.md
 
 ## INSTALLATION (Android)
