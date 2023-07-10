@@ -41,3 +41,49 @@ Außerdem sollen bei dem Release auch neue spannende Artikel dabei sein.
 
 ### Meine Pläne für die Zeit nach der (offiziellen) Veröffentlichung
 Wie schon gesagt, die Zukunft bleibt ungewiss...
+
+## Aktuelle Phase
+ALPHA
+
+## Geplante Inhalte für die kommenden Updates
+    
+    Neue Artikel
+    - Dateifreigabe mit Kabel, USB-Sticks & Festplatten (Windows & Android)
+    - Bluetooth
+    - Nearby Share
+    - Quick Share (Samsung)
+    - Whatsapp
+    - Signal
+    - Instagram
+    - Nachrichten (Samsung)
+    - Messages (by Google)
+    - Gmail
+    - Die Cloud (Was ist was?)
+    - Google Drive
+    - Microsoft OneDrive
+    - Dropbox
+
+    Neue Shortcuts (Artikel Tastenkombinationen)
+    - Generelle Shortcuts
+      - ALT + TAB
+      - WIN + TAB
+      - STRG + F (Android)
+      - ALT + F4
+      - WIN + "Text eingeben" (Windows)
+      - WIN + E (Windows)
+      - WIN + 1 (Windows)
+    - Word
+    - Browser (bspw. Chrome, Firefox oder Microsoft Edge)
+      - STRG + N
+      - STRG + SHIFT + N
+      - STRG + "+"
+      - STRG + "-"
+      - STRG + F4
+      - F11
+      - F12
+      - STRG + H (Chrome)
+      - STRG + F (Chrome, Windows)
+
+    inhaltliche Fehler (Artikel)
+
+    aktuell in der App enthaltene Fehler, die behoben werden müssen, befinden sich hier auf Github unter dem Tab "Issues"
