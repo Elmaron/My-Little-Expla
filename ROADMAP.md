@@ -47,7 +47,7 @@ ALPHA
 
 ## Geplante Inhalte für die kommenden Updates
     
-    Neue Funktionen
+    Geplante Funktionen
     - Neue Inhaltliche Aufteilung
        - empfohlene Artikel
        - Kategorien
@@ -60,7 +60,7 @@ ALPHA
     - Import/Export von (eigenen) Artikeln
     - Icons für die Artikelübersicht
     
-    Neue Artikel
+    Geplante Artikel
     - Dateifreigabe mit Kabel, USB-Sticks & Festplatten (Windows & Android)
     - Bluetooth
     - Nearby Share (Android)
@@ -84,7 +84,7 @@ ALPHA
     - Der geteilte Bildschirm (Android)
     - Das Pop-Up Fenster (Android)
 
-    Neue Shortcuts (Artikel Tastenkombinationen)
+    Geplante Shortcuts (Artikel Tastenkombinationen)
     - Generelle Shortcuts
       - ALT + TAB
       - WIN + TAB
