@@ -1,7 +1,7 @@
 # My Little Expla
 
 
-### INSTALLATION
+### INSTALLATION (Android)
 Um die App installieren zu können, musst du zuvor in den Einstellungen das Installieren von Apps aus unbekannter Quelle zulassen. Dafür musst du die Einstellungen deiner App öffnen und bei "Apps aus unbekannter Quelle installieren" aktivieren. Das folgende Video zeigt, wie du es auf deinem Smartphone aktivierst (Link öffnet eine Adobe XD Präsentation):  
 
 https://xd.adobe.com/view/1bd3c742-f445-4bb6-963c-6c8f5cd056e3-4e80/?fullscreen
