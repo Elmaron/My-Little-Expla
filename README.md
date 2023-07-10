@@ -34,7 +34,7 @@ Solltest du Sorge haben, dass du dich dann auch in dem Amazon Appstore anmelden 
 ### 1. Öffne noch einmal den Microsoft Store und suche in der Suchleiste nach "APK Installers". Die richtige App ist von "wherewhere".
 ### 2. Lade diese herunter.
 ### 3. Du kannst nun hier von Github die aktuelle APK herunterladen. Für die Datei gilt das Gleiche wie für die App auf Android.
-### 4. Im Downloads-Ordner öffnest du nun die Datei (__app-alpha-#_#.apk__  ) mit einem Doppelklick. Der APK Installer sollte sich öffnen. 
+### 4. Im Downloads-Ordner öffnest du nun die Datei (__MyLittleExpla-v#.#.#-alpha.apk__) mit einem Doppelklick. Der APK Installer sollte sich öffnen. 
 ### 5. Im geöffneten Fenster sollte kurz danach eine Meldung kommen, unter welcher sich "Starte WSA" und "Ich weiß" als Buttons zu sehen sind. Um die App installieren zu können, musst du das WSA (Windows Subsystem for Android) starten, deshalb musst du auf "Starte WSA" drücken. Anschließend musst du einen Moment warten.
 ### 6. Es kommt eine Debugging-Anfrage auf dem Bildschirm. Diese muss angenommen werden.  
 Die App "APK Installers" versucht normalerweise übers lokale Internet (also nur bei dir Zuhause, bei Geräten im gleichen WLAN), ein Android Gerät zu finden, wo es die App installieren kann. Da du allerdings zuvor auf "WSA starten" gedrückt hast, nimmt es nur Kontakt zum Windows Subsystem for Android auf deinem PC auf und versucht dort die Installation zu starten. Da das WSA ein Smartphone simuliert (so tut, als wäre es eins), gibt es einen Hinweis auf diese Anfrage. 
