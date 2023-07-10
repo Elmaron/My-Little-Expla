@@ -62,6 +62,10 @@ ALPHA
     - Google Drive
     - Microsoft OneDrive
     - Dropbox
+    - Google Assistant
+    - ChatGPT
+    - Google Lens
+    - Google Fonts
 
     Neue Shortcuts (Artikel Tastenkombinationen)
     - Generelle Shortcuts
