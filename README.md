@@ -15,7 +15,7 @@ __app-alpha-#_#.apk__
 
 In folgendem Video siehst du auch nochmal ein Beispiel, wie du die App installierst. (Design & Look der App können von der aktuellen Version abweichen)
 
-https://github.com/Elmaron/My-Little-Expla/assets/66702022/33606f2c-5588-41b3-b7fd-1f0ac880499a
+[Video vorrübergehend entfernt]
 
 
 
