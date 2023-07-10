@@ -27,6 +27,45 @@
         <item name="android:textStyle">italic</item>
     </style>
 
+    <style name="ArticleStyle">
+        <item name="android:background">@drawable/article_background</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+    </style>
+
+    <style name="ArticleStyle.Text" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/TextColorArticle</item>
+        <item name="android:layout_marginBottom">15dp</item>
+    </style>
+
+    <style name="ArticleStyle.Text.Hint" parent="ArticleStyle.Text">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="ArticleStyle.Text.list" parent="ArticleStyle.Text">
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="ArticleStyle.Text.Title" parent="ArticleStyle.Text">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+
+    <style name="ArticleStyle.Text.Title.Header1" parent="ArticleStyle.Text.Title">
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ArticleStyle.Text.Description" parent="ArticleStyle.Text">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:layout_marginBottom">0dp</item>
+
+    </style>
+
     <style name="Text" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/TextcolorPrimary</item>
     </style>
@@ -49,9 +88,5 @@
 
     <style name="Title.Header1" parent="Title">
         <item name="android:textSize">25sp</item>
-    </style>
-
-    <style name="ContentText" parent="Widget.AppCompat.TextView">
-        <item name="android:textSize">18sp</item>
     </style>
 </resources>

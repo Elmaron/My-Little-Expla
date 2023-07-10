@@ -10,14 +10,13 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doOnTextChanged
-import com.elmaronstanford.mylittleexpla.R
 
 class MainActivity : AppCompatActivity() {
 
     private data class Article(val title: String, val shortDescription: String, val tags: List<String>, val articleID: Int)
 
     private val myArticles: List<Article> = listOf(
-        Article("Dateien freigeben (Android)", "M\u00F6glichkeiten der Dateifreigabe in Android", listOf("Nearby Share", "Dateifreigabe", "Android"), R.layout.article_android_nearby_share),
+        Article("Dateien freigeben", "M\u00F6glichkeiten der Dateifreigabe auf allen möglichen Geräten", listOf("Nearby Share", "Dateifreigabe", "Android", "Dateien", "Direktverbindungen", "App", "Programm", "Cloud", "Bluetooth", "Quick Share", "Samsung", "Bilder", "versenden", "E-Mail", "Wolken", "Himmel", "Sender", "Empf\u00E4", "Windows"), R.layout.article_android_dateifreigabe),
         Article("Tastenkombinationen", "Verschiedene Tastenkombinationen für alle möglichen Plattformaen und Programme", listOf("Shortcuts", "Tastenkombinationen", "Word", "Grundlagen", "Grundfunktionen"), R.layout.article_general_shortcuts)
     )
 
