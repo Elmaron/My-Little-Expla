@@ -100,5 +100,9 @@ ALPHA
       - STRG + F (Chrome, Windows)
 
     inhaltliche Fehler (Artikel)
+    - Dateien freigeben
+      - Beschreibung: "Plattformaen" -> Plattformen
+    - Tastenkombinationen
+      - Desktop/Home-Screen -> Auf Windows ist die Tastenkombination nicht STRG + D, sondern WIN + D
 
     aktuell in der App enthaltene Fehler, die behoben werden müssen, befinden sich hier auf Github unter dem Tab "Issues"
