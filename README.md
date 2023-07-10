@@ -22,7 +22,7 @@ In folgendem Video siehst du auch nochmal ein Beispiel, wie du die App installie
 Aktuell gibt es noch keine eigene App für Windows. Allerdings lässt sich die App für Android mit einigen wenigen zusätzlichen Handgriffen auch auf jedem Computer installieren.
 ## Installation des "Windows Subystem for Android"
 Das Subsystem für Android sorgt dafür, dass ein Android Gerät auf einem Windows PC simuliert werden kann. Die Apps können allerdings wie ganz normale Programme gestartet werden, sodass man nicht jedes Mal noch ein zusätzliches Programm starten muss.
-### 1. Öffne Start (das Windows-Symbol unten in der Taskleiste)
+### 1. Öffne Start (das Windows-Symbol unten links in der Taskleiste)
 ### 2. Gebe "Windows-Features aktivieren oder deaktivieren" ein und drücke die Enter-Taste.
 ### 3. Such in der Liste an Ordnern nach etwas wie "VM Plattform" oder "Virtual Machine Platform".
 ### 4. Aktiviere das Häkchen neben diesem Ordner und drücke unten auf OK. Danach musst du den Computer einmal neu starten.
