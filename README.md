@@ -11,7 +11,7 @@ Um die App installieren zu können, musst du zuvor in den Einstellungen das Inst
 https://xd.adobe.com/view/1bd3c742-f445-4bb6-963c-6c8f5cd056e3-4e80/?fullscreen
 
 Anschließend musst du die Datei nur noch aus dem Browser herunterladen und sie installieren. Der aktuellelste Release befindet sich in dem Link oben. Dort musst du nur noch die Asstets ausklappen und die App herunterladen. Habt ihr die App in der Vergangenheit bereits einmal heruntergeladen und möchtet die App aktualisieren, könnt ihr sie ebenfalls über diesen Link herunterladen. Bei der Installation werden ihr dann stattdessen danach gefragt, ob ihr die App aktualisieren möchtet. Die neueste Version hat immer die höchsten Zahlen im Namen stehen (2_0 bps.w) Die heruntergeladene Datei sollte in etwa heißen:  
-__app-alpha-#_#.apk__  
+__MyLittleExpla-v#.#.#-alpha.apk__  
 (Das # steht für eine beliebige Zahl.)
 
 In folgendem Video siehst du auch nochmal ein Beispiel, wie du die App installierst. (Design & Look der App können von der aktuellen Version abweichen)
