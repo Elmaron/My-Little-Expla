@@ -56,6 +56,9 @@ ALPHA
        - eigene Artikel hinzufügen
     - Markierung der Artikel in unterschiedlichen Farben je nach Artikellänge (Kurzinfo/Erklärung, Normal, Ausführlich)
     - Wechsel der Artikel auf ein Datenbanksystem
+    - Teilen von Artikeln/Artikelinhalten
+    - Import/Export von (eigenen) Artikeln
+    - Icons für die Artikelübersicht
     
     Neue Artikel
     - Dateifreigabe mit Kabel, USB-Sticks & Festplatten (Windows & Android)
