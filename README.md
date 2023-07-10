@@ -9,7 +9,7 @@ Um die App installieren zu können, musst du zuvor in den Einstellungen das Inst
 
 https://xd.adobe.com/view/1bd3c742-f445-4bb6-963c-6c8f5cd056e3-4e80/?fullscreen
 
-Dann musst du nur die aktuelle Datei herunterladen und sie antippen, um sie zu installieren. Die aktuellste Version ist immer die einzelne, welche sich nicht in einem Ordner befindet. Die heruntergeladene Datei sollte in etwa heißen:  
+Anschließend musst du die Datei nur noch aus dem Browser herunterladen und sie installieren. Da die App sich aktuell noch im Entwicklungsstadion befindet, findet ihr diese unter Releases unter dem Tag Alpha. Die neueste Version hat immer die höchsten Zahlen im Namen stehen (2_0 bps.w) Die heruntergeladene Datei sollte in etwa heißen:  
 __app-alpha-#_#.apk__  
 (Das # steht für eine beliebige Zahl.)
 
