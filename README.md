@@ -33,7 +33,7 @@ Solltest du Sorge haben, dass du dich dann auch in dem Amazon Appstore anmelden 
 ## Installation des Installationsprogramms und der App
 ### 1. Öffne noch einmal den Microsoft Store und suche in der Suchleiste nach "APK Installers". Die richtige App ist von "wherewhere".
 ### 2. Lade diese herunter.
-### 3. Du kannst nun hier von Github die aktuelle APK herunterladen. Für die Datei gilt das Gleich wie für die App auf Android.
+### 3. Du kannst nun hier von Github die aktuelle APK herunterladen. Für die Datei gilt das Gleiche wie für die App auf Android.
 ### 4. Im Downloads-Ordner öffnest du nun die Datei (__app-alpha-#_#.apk__  ) mit einem Doppelklick. Der APK Installer sollte sich öffnen. 
 ### 5. Im geöffneten Fenster sollte kurz danach eine Meldung kommen, unter welcher sich "Starte WSA" und "Ich weiß" als Buttons zu sehen sind. Um die App installieren zu können, musst du das WSA (Windows Subsystem for Android) starten, deshalb musst du auf "Starte WSA" drücken. Anschließend musst du einen Moment warten.
 ### 6. Es kommt eine Debugging-Anfrage auf dem Bildschirm. Diese muss angenommen werden.  
