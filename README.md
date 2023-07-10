@@ -3,6 +3,8 @@
 Hier findest du den aktuellsten Release: https://github.com/Elmaron/My-Little-Expla/releases/latest  
 Hier findest du Informationen zu kommenden Funktionen und Veröffentlichungen: https://github.com/Elmaron/My-Little-Expla/blob/main/ROADMAP.md
 
+    Falls du mir gerne Feedback senden möchtest, kannst du mir gerne eine E-Mail an theelmaron@gmail.com schreiben.
+
 ## INSTALLATION (Android)
 Um die App installieren zu können, musst du zuvor in den Einstellungen das Installieren von Apps aus unbekannter Quelle zulassen. Dafür musst du die Einstellungen deiner App öffnen und bei "Apps aus unbekannter Quelle installieren" aktivieren. Das folgende Video zeigt, wie du es auf deinem Smartphone aktivierst (Link öffnet eine Adobe XD Präsentation):  
 
