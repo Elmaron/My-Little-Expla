@@ -49,11 +49,13 @@ ALPHA
     
     Neue Funktionen
     - Neue Inhaltliche Aufteilung
-        - empfohlene Artikel
-        - Kategorien
-        - alle Artikel
-        - Favouriten
+       - empfohlene Artikel
+       - Kategorien
+       - alle Artikel
+       - Favouriten
+       - eigene Artikel hinzufügen
     - Markierung der Artikel in unterschiedlichen Farben je nach Artikellänge (Kurzinfo/Erklärung, Normal, Ausführlich)
+    - Wechsel der Artikel auf ein Datenbanksystem
     
     Neue Artikel
     - Dateifreigabe mit Kabel, USB-Sticks & Festplatten (Windows & Android)
