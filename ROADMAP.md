@@ -47,25 +47,36 @@ ALPHA
 
 ## Geplante Inhalte für die kommenden Updates
     
+    Neue Funktionen
+    - Neue Inhaltliche Aufteilung
+        - empfohlene Artikel
+        - Kategorien
+        - alle Artikel
+        - Favouriten
+    
     Neue Artikel
     - Dateifreigabe mit Kabel, USB-Sticks & Festplatten (Windows & Android)
     - Bluetooth
-    - Nearby Share
-    - Quick Share (Samsung)
+    - Nearby Share (Android)
+    - Quick Share (Android, Samsung)
     - Whatsapp
     - Signal
     - Instagram
-    - Nachrichten (Samsung)
-    - Messages (by Google)
+    - Nachrichten (Android, Samsung)
+    - Messages (by Google) (Android)
     - Gmail
     - Die Cloud (Was ist was?)
     - Google Drive
     - Microsoft OneDrive
     - Dropbox
-    - Google Assistant
+    - Google Assistant (Android)
     - ChatGPT
-    - Google Lens
+    - Google Lens (Android)
     - Google Fonts
+    - Das Always-On-Display (Android)
+    - Der Speerbildschirm (Android)
+    - Der geteilte Bildschirm (Android)
+    - Das Pop-Up Fenster (Android)
 
     Neue Shortcuts (Artikel Tastenkombinationen)
     - Generelle Shortcuts
