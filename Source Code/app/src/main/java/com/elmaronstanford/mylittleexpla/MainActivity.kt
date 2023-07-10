@@ -1,21 +1,16 @@
-package com.example.mylittleexpla
+package com.elmaronstanford.mylittleexpla
 
-import android.graphics.Color
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.AbsListView.RecyclerListener
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.ListView
 import android.widget.TextView
-import androidx.core.view.ViewCompat
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doOnTextChanged
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.elmaronstanford.mylittleexpla.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,11 +30,20 @@ class MainActivity : AppCompatActivity() {
         loadMain()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        if(android.R.id.content != R.layout.activity_main)
-            loadMain()
+        if(!checkDisplaySize()) {
+            if (android.R.id.content != R.layout.activity_main)
+                loadMain()
+        }
         else
             super.onBackPressed()
+    }
+
+    private fun checkDisplaySize(): Boolean
+    {
+        return (resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK == Configuration.SCREENLAYOUT_SIZE_LARGE) ||
+                (resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK == Configuration.SCREENLAYOUT_SIZE_XLARGE)
     }
 
     private fun loadMain()
@@ -65,13 +69,24 @@ class MainActivity : AppCompatActivity() {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
-            layout.layoutParams = layoutParams
             title.layoutParams = layoutParams
             description.layoutParams = layoutParams
 
+            layoutParams.setMargins(0,0,0,32)
+            layout.layoutParams = layoutParams
+
             layout.addView(title)
             layout.addView(description)
-            layout.setOnClickListener {
+            if(checkDisplaySize()) layout.setOnClickListener {
+                findViewById<ConstraintLayout>(R.id.OpenedArticles).removeAllViews()
+                findViewById<ConstraintLayout>(R.id.OpenedArticles).addView(
+                    LayoutInflater.from(this).inflate(article.articleID, null),
+                    ConstraintLayout.LayoutParams(
+                        ConstraintLayout.LayoutParams.MATCH_PARENT,
+                        ConstraintLayout.LayoutParams.MATCH_PARENT
+                    ))
+            }
+            else layout.setOnClickListener {
                 setContentView(article.articleID)
             }
 
