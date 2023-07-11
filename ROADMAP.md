@@ -59,6 +59,7 @@ ALPHA
     - Teilen von Artikeln/Artikelinhalten
     - Import/Export von (eigenen) Artikeln
     - Icons für die Artikelübersicht
+    - Einführung in die Verwendung der App
     
     Geplante Artikel
     - Dateifreigabe mit Kabel, USB-Sticks & Festplatten (Windows & Android)
