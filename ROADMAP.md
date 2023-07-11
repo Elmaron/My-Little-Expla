@@ -47,14 +47,21 @@ ALPHA
 
 ## Geplante Inhalte für die kommenden Updates
     
-    Neue Funktionen
+    Geplante Funktionen
     - Neue Inhaltliche Aufteilung
-        - empfohlene Artikel
-        - Kategorien
-        - alle Artikel
-        - Favouriten
+       - empfohlene Artikel
+       - Kategorien
+       - alle Artikel
+       - Favouriten
+       - eigene Artikel hinzufügen
+    - Markierung der Artikel in unterschiedlichen Farben je nach Artikellänge (Kurzinfo/Erklärung, Normal, Ausführlich)
+    - Wechsel der Artikel auf ein Datenbanksystem
+    - Teilen von Artikeln/Artikelinhalten
+    - Import/Export von (eigenen) Artikeln
+    - Icons für die Artikelübersicht
+    - Einführung in die Verwendung der App
     
-    Neue Artikel
+    Geplante Artikel
     - Dateifreigabe mit Kabel, USB-Sticks & Festplatten (Windows & Android)
     - Bluetooth
     - Nearby Share (Android)
@@ -78,7 +85,7 @@ ALPHA
     - Der geteilte Bildschirm (Android)
     - Das Pop-Up Fenster (Android)
 
-    Neue Shortcuts (Artikel Tastenkombinationen)
+    Geplante Shortcuts (Artikel Tastenkombinationen)
     - Generelle Shortcuts
       - ALT + TAB
       - WIN + TAB
@@ -100,5 +107,9 @@ ALPHA
       - STRG + F (Chrome, Windows)
 
     inhaltliche Fehler (Artikel)
+    - Dateien freigeben
+      - Beschreibung: "Plattformaen" -> Plattformen
+    - Tastenkombinationen
+      - Desktop/Home-Screen -> Auf Windows ist die Tastenkombination nicht STRG + D, sondern WIN + D
 
     aktuell in der App enthaltene Fehler, die behoben werden müssen, befinden sich hier auf Github unter dem Tab "Issues"
