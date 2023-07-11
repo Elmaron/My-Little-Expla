@@ -32,14 +32,14 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewArticleTitle" />
 
     <TextView
-        android:id="@+id/textViewHints"
+        android:id="@+id/textViewArticleHint"
         style="@style/Text.Hint"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Hints"
+        android:text="Hint"
         app:layout_constraintBottom_toTopOf="@+id/buttonBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -36,7 +36,8 @@ object Converters {
     }
 
     @TypeConverter
-    fun drawableToString(drawable: Drawable): String {
+    fun drawableToString(drawable: Drawable?): String? {
+        if(drawable == null) return null
         val bitmap = (drawable as BitmapDrawable).bitmap
         val stream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
@@ -93,10 +94,15 @@ abstract class LocalDatabase : RoomDatabase() {
 
 
 
-                //TAGS//
+
 
                 GlobalScope.launch(Dispatchers.IO) {
+
+                    //TAGS//
+
                     val appTags = listOf(
+                        Tag(title = "favourites"),
+                        Tag(title = "recommended"),
                         Tag(title = "android"),
                         Tag(title = "windows")
                     )
@@ -107,13 +113,11 @@ abstract class LocalDatabase : RoomDatabase() {
                     }
 
                     Log.d("AppDataBaseCallback", "Tags inserted successfully")
-                }
 
 
 
-                //CONTENTTYPE//
+                    //CONTENTTYPE//
 
-                GlobalScope.launch(Dispatchers.IO) {
                     val allContentTypes = listOf(
                         ContentType(type = "text"),
                         ContentType(type = "header1"),
@@ -122,6 +126,7 @@ abstract class LocalDatabase : RoomDatabase() {
                         ContentType(type = "description"),
                         ContentType(type = "one-line-info"),            //[Beispiel] Tastenkombination:
                         ContentType(type = "one-line-info-element"),    //[Beispiel]                        STRG + V
+                        ContentType(type = "one-line-info-end"),
                         ContentType(type = "unsorted-list-element"),    //[Beispiel]  - blabla
                         ContentType(type = "sorted-list-element"),      //[Beispiel] 1. blabla
                         ContentType(type = "image"),
@@ -137,18 +142,18 @@ abstract class LocalDatabase : RoomDatabase() {
                     }
 
                     Log.d("AppDataBaseCallback", "Contenttypes inserted successfully")
-                }
 
 
 
-                //ARTICLES//
 
-                //Hinweise zur Länge: [1 -> activity_article_short][2 -> activity_article_middle][3 -> activity_article_long]
+                    //ARTICLES//
 
-                GlobalScope.launch(Dispatchers.IO) {
+                    //Hinweise zur Länge: [1 -> activity_article_short][2 -> activity_article_middle][3 -> activity_article_long]
+                    //Hinweise zur Länge Short: Beschreibung ist der Inhalt des Artikels
+
                     val myArticles = listOf(
-                        Article(title = "Dateifreigabe", description = "M\u00F6glichkeiten der Dateifreigabe auf allen m\u00F6glichen Geräten", icon = null, length = 2),
-                        Article(title = "Tastenkombinationen", description = "Tastenkombinationen für alle m\u00F6glichen Plattformen", icon = null, length = 3)
+                        Article(title = "Dateifreigabe", description = "M\u00F6glichkeiten der Dateifreigabe auf allen m\u00F6glichen Geräten", icon = null, length = 2, hint = null),
+                        Article(title = "Tastenkombinationen", description = "Tastenkombinationen für alle m\u00F6glichen Plattformen", icon = null, length = 3, hint = null)
                     )
 
                     for (myArticle in myArticles)
@@ -157,89 +162,144 @@ abstract class LocalDatabase : RoomDatabase() {
                     }
 
                     Log.d("AppDataBaseCallback", "Articles inserted successfully")
-                }
 
 
 
-                //CHAPTERS//
 
-                GlobalScope.launch(Dispatchers.IO) {
+                    //CHAPTERS//
+
+
+                    Log.d("Chaptertest", "Return of getArticleID: " + getInstance(context).articleDao().getArticleID("Dateifreigabe"))
+                    Log.d("Chaptertest", "Return of getArticleID: " + getArticleID(context, "Tastenkombinationen"))
+
                     val myChapters = listOf(
 
                         //Artikel: Dateifreigabe
-                        Chapter(idArticle = getArticleID(context, "Dateifreigabe"), position = 1, title = "M\u00F6glichkeiten der Dateifreigabe", description = null, icon = null),
-                        Chapter(idArticle = getArticleID(context, "Dateifreigabe"), position = 2, title = "Freigabe per Direktverbindung", description = null, icon = null),
-                        Chapter(idArticle = getArticleID(context, "Dateifreigabe"), position = 3, title = "Dateifreigabe per App", description = null, icon = null),
-                        Chapter(idArticle = getArticleID(context, "Dateifreigabe"), position = 4, title = "Dateien per Cloud freigeben", description = null, icon = null),
+                        getArticleID(context, "Dateifreigabe")?.let { Chapter(idArticle = it, title = "M\u00F6glichkeiten der Dateifreigabe", description = null, icon = null) },
+                        getArticleID(context, "Dateifreigabe")?.let { Chapter(idArticle = it, title = "Freigabe per Direktverbindung", description = null, icon = null) },
+                        getArticleID(context, "Dateifreigabe")?.let { Chapter(idArticle = it, title = "Dateifreigabe per App", description = null, icon = null) },
+                        getArticleID(context, "Dateifreigabe")?.let { Chapter(idArticle = it, title = "Dateien per Cloud freigeben", description = null, icon = null) },
 
                         //Artikel: Tastenkobinationen
-                        Chapter(idArticle = getArticleID(context, "Tastenkombinationen"), position = 1, title = "Was ist das?", description = null, icon = null),
-                        Chapter(idArticle = getArticleID(context, "Tastenkombinationen"), position = 2, title = "Grundlagen", description = null, icon = null),
-                        Chapter(idArticle = getArticleID(context, "Tastenkombinationen"), position = 3, title = "Word", description = null, icon = null),
+                        getArticleID(context, "Tastenkombinationen")?.let { Chapter(idArticle = it, title = "Was ist das?", description = null, icon = null) },
+                        getArticleID(context, "Tastenkombinationen")?.let { Chapter(idArticle = it, title = "Grundlagen", description = null, icon = null) },
+                        getArticleID(context, "Tastenkombinationen")?.let { Chapter(idArticle = it, title = "Word", description = null, icon = null) },
 
                         //
 
 
                     )
 
+
                     for (myChapter in myChapters)
                     {
-                        getInstance(context).chapterDao().insert(myChapter)
+                        if (myChapter != null) {
+                            getInstance(context).chapterDao().insert(myChapter)
+                        }
                     }
 
                     Log.d("AppDataBaseCallback", "Chapters inserted successfully")
-                }
 
 
 
-                //CONTENT//
-
-                GlobalScope.launch(Dispatchers.IO) {
+                    //CONTENT//
                     val contents = listOf(
 
                         //Artikel: Dateifreigabe
 
                             //Kapitel: Möglichkeiten der Dateifreigabe
-                            ChapterContent(idChapter = getChapterID(context, "M\u00F6glichkeiten der Dateifreigabe", "Dateifreigabe"), position = 1, idContentType = getContentTypeID(context, "text"),
-                                content = "Es gibt einige grundlegende Dinge, die man sich fragen sollte, bevor man eine Datei versendet. Dazu gehören folgende Fragen:"),
-                            ChapterContent(idChapter = getChapterID(context, "M\u00F6glichkeiten der Dateifreigabe", "Dateifreigabe"), position = 2, idContentType = getContentTypeID(context, "unsorted-list-element"),
-                                content = "- Wie schnell muss die Datei ankommen?\n- Wie viele Empf\u00E4nger hat die Datei?\n-Wie groß ist die Datei?\n- Wie viele Dateien sollen versendet werden?\n- Wie lange soll die Datei verf\u00FCgbar sein?"),
-                            ChapterContent(idChapter = getChapterID(context, "M\u00F6glichkeiten der Dateifreigabe", "Dateifreigabe"), position = 3, idContentType = getContentTypeID(context, "text"),
-                                content = "Im Hinblick auf diese Fragen k\u00F6nnen unsere M\u00F6glichkeiten in 3 verschiedene Kategorien eingeteilt werden:"),
-                            ChapterContent(idChapter = getChapterID(context, "M\u00F6glichkeiten der Dateifreigabe", "Dateifreigabe"), position = 4, idContentType = getContentTypeID(context, "unsorted-list-element"),
-                                content = "- Dateifreigabe per Direktverbindung\n- Dateifreigabe per App\n- Dateifreigabe per Cloud"),
+                        getChapterID(context, "M\u00F6glichkeiten der Dateifreigabe", "Dateifreigabe")?.let {
+                            getContentTypeID(context, "text")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Es gibt einige grundlegende Dinge, die man sich fragen sollte, bevor man eine Datei versendet. Dazu gehören folgende Fragen:")
+                            }
+                        },
+                        getChapterID(context, "M\u00F6glichkeiten der Dateifreigabe", "Dateifreigabe")?.let {
+                            getContentTypeID(context, "unsorted-list-element")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "- Wie schnell muss die Datei ankommen?\n- Wie viele Empf\u00E4nger hat die Datei?\n-Wie groß ist die Datei?\n- Wie viele Dateien sollen versendet werden?\n- Wie lange soll die Datei verf\u00FCgbar sein?")
+                            }
+                        },
+                        getChapterID(context, "M\u00F6glichkeiten der Dateifreigabe", "Dateifreigabe")?.let {
+                            getContentTypeID(context, "text")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Im Hinblick auf diese Fragen k\u00F6nnen unsere M\u00F6glichkeiten in 3 verschiedene Kategorien eingeteilt werden:")
+                            }
+                        },
+                        getChapterID(context, "M\u00F6glichkeiten der Dateifreigabe", "Dateifreigabe")?.let {
+                            getContentTypeID(context, "unsorted-list-element")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "- Dateifreigabe per Direktverbindung\n- Dateifreigabe per App\n- Dateifreigabe per Cloud")
+                            }
+                        },
 
                             //Kapitel: Freigabe per Direktverbindung
-                            ChapterContent(idChapter = getChapterID(context, "Freigabe per Direktverbindung", "Dateifreigabe"), position = 1, idContentType = getContentTypeID(context, "text"),
-                                content = "Mit Direktverbindung sind sowohl klassische Methoden (wie bspw. per Kabel oder USB-Stick), als auch kabellose Verbindungen wie bspw. über Bluetooth gemeint.\n" +
-                                        "Direktverbindungen eignen sich für eine schnelle und sichere Freigabe von einzelnen Dateien an einen einzelnen Empfänger am besten. Die Dateien bekommen in " +
-                                        "diesem Fall (bis auf Quick Share) auch keine zeitliche Begrenzung.\nFolgende Direktverbindungen werden in eigenen Artikeln erklärt:"),
-                            ChapterContent(idChapter = getChapterID(context, "Freigabe per Direktverbindung", "Dateifreigabe"), position = 2, idContentType = getContentTypeID(context, "unsorted-list-element"),
-                                content = "- Kabelgebunden\n- Kabellose Übtertragunsmöglichkeiten:\n  - Bluetooth\n  - Nearby Share\n  - Quick Share (Samsung)"),
-                            ChapterContent(idChapter = getChapterID(context, "Freigabe per Direktverbindung", "Dateifreigabe"), position = 3, idContentType = getContentTypeID(context, "hint"),
-                                content = "Sollten mir in Zukunft noch mehr und bessere Möglichkeiten für eine Direktverbindung bekannt sein, werde ich diese hier ergänzen."),
+                        getChapterID(context, "Freigabe per Direktverbindung", "Dateifreigabe")?.let {
+                            getContentTypeID(context, "text")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Mit Direktverbindung sind sowohl klassische Methoden (wie bspw. per Kabel oder USB-Stick), als auch kabellose Verbindungen wie bspw. über Bluetooth gemeint.\n" +
+                                            "Direktverbindungen eignen sich für eine schnelle und sichere Freigabe von einzelnen Dateien an einen einzelnen Empfänger am besten. Die Dateien bekommen in " +
+                                            "diesem Fall (bis auf Quick Share) auch keine zeitliche Begrenzung.\nFolgende Direktverbindungen werden in eigenen Artikeln erklärt:")
+                            }
+                        },
+                        getChapterID(context, "Freigabe per Direktverbindung", "Dateifreigabe")?.let {
+                            getContentTypeID(context, "unsorted-list-element")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "- Kabelgebunden\n- Kabellose Übtertragunsmöglichkeiten:\n  - Bluetooth\n  - Nearby Share\n  - Quick Share (Samsung)")
+                            }
+                        },
+                        getChapterID(context, "Freigabe per Direktverbindung", "Dateifreigabe")?.let {
+                            getContentTypeID(context, "hint")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Sollten mir in Zukunft noch mehr und bessere Möglichkeiten für eine Direktverbindung bekannt sein, werde ich diese hier ergänzen.")
+                            }
+                        },
 
                             //Kapitel: Dateifreigabe per App
-                            ChapterContent(idChapter = getChapterID(context, "Dateifreigabe per App", "Dateifreigabe"), position = 1, idContentType = getContentTypeID(context, "text"),
-                                content = "Mit der Dateifreigabe per App sind vor allem Apps wie Whatsapp, Signal, aber auch Instagram gemeint. Wie die Dateifreigabe in diesen funktioniert, " +
-                                        "wird in den jeweiligen Artikeln zu den Apps behandelt.\nPer App können zumeist dauerhafte Freigaben von einzelnen oder mehreren Dateien an einen " +
-                                        "oder mehrere Empfänger erstellt werden. Manche Apps bieten sogar zusätzliche Möglichkeiten zur Einstellung, was eine bessere Kontrolle über die Verwendung und " +
-                                        "weitere Verbreitung von Dateien ermöglicht.\nFolgende Apps werden in eigenen Artikeln behandelt:"),
-                            ChapterContent(idChapter = getChapterID(context, "Dateifreigabe per App", "Dateifreigabe"), position = 2, idContentType = getContentTypeID(context, "unsorted-list-element"),
-                                content = "- Whatsapp\n- Signal\n- Instagram\n- Nachrichten (Samsung)\n- Messages\n- Gmail"),
-                            ChapterContent(idChapter = getChapterID(context, "Dateifreigabe per App", "Dateifreigabe"), position = 3, idContentType = getContentTypeID(context, "hint"),
-                                content = "Da sich die Apps ständig verändern, ist es möglich, das die Artikel nicht immer ganz auf dem neuesten Stand sind. Allerdings versuche ich sie so " +
-                                        "bald wie möglich zu aktualisieren. Die Funktionsweise der Freigabe sollte in den entsprechenden Apps aber gleich bleiben."),
+                        getChapterID(context, "Dateifreigabe per App", "Dateifreigabe")?.let {
+                            getContentTypeID(context, "text")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Mit der Dateifreigabe per App sind vor allem Apps wie Whatsapp, Signal, aber auch Instagram gemeint. Wie die Dateifreigabe in diesen funktioniert, " +
+                                            "wird in den jeweiligen Artikeln zu den Apps behandelt.\nPer App können zumeist dauerhafte Freigaben von einzelnen oder mehreren Dateien an einen " +
+                                            "oder mehrere Empfänger erstellt werden. Manche Apps bieten sogar zusätzliche Möglichkeiten zur Einstellung, was eine bessere Kontrolle über die Verwendung und " +
+                                            "weitere Verbreitung von Dateien ermöglicht.\nFolgende Apps werden in eigenen Artikeln behandelt:")
+                            }
+                        },
+                        getChapterID(context, "Dateifreigabe per App", "Dateifreigabe")?.let {
+                            getContentTypeID(context, "unsorted-list-element")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "- Whatsapp\n- Signal\n- Instagram\n- Nachrichten (Samsung)\n- Messages\n- Gmail")
+                            }
+                        },
+                        getChapterID(context, "Dateifreigabe per App", "Dateifreigabe")?.let {
+                            getContentTypeID(context, "hint")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Da sich die Apps ständig verändern, ist es möglich, das die Artikel nicht immer ganz auf dem neuesten Stand sind. Allerdings versuche ich sie so " +
+                                            "bald wie möglich zu aktualisieren. Die Funktionsweise der Freigabe sollte in den entsprechenden Apps aber gleich bleiben.")
+                            }
+                        },
 
                             //Kapitel: Dateien per Cloud freigeben
-                            ChapterContent(idChapter = getChapterID(context, "Dateien per Cloud freigeben", "Dateifreigabe"), position = 1, idContentType = getContentTypeID(context, "text"),
-                                content = "Clouds haben viele Funktionen. Während die Wolken (deutsche Übersetzung von &quot;Cloud&quot;) allerdings vor allem dafür geeignet sind, Dateien wie Fotos, Videos " +
-                                        "und andere Dokumente langfristig zu speichern, sodass man aber Zugriff von jedem Gerät aus hat, ist es auch möglich Dateien an andere freizugeben.\nClouds eignen sich " +
-                                        "in diesem Fall für jede der zu Beginn gestellten Fragen, solange Sender und Empfänger über Internet verfügen.\nFolgende Cloud-Speicher werden in dieser App behandelt:"),
-                            ChapterContent(idChapter = getChapterID(context, "Dateien per Cloud freigeben", "Dateifreigabe"), position = 2, idContentType = getContentTypeID(context, "unsorted-list-element"),
-                                content = "- Google Drive\n- Microsoft OneDrive\n- Dropbox"),
-                            ChapterContent(idChapter = getChapterID(context, "Dateien per Cloud freigeben", "Dateifreigabe"), position = 3, idContentType = getContentTypeID(context, "hint"),
-                                content = "Die Oberfläche der Cloud-Services kann sich ab und an mal ändern, aber ich versuche die Artikel so gut es geht aktuell zu halten."),
+                        getChapterID(context, "Dateien per Cloud freigeben", "Dateifreigabe")?.let {
+                            getContentTypeID(context, "text")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Clouds haben viele Funktionen. Während die Wolken (deutsche Übersetzung von &quot;Cloud&quot;) allerdings vor allem dafür geeignet sind, Dateien wie Fotos, Videos " +
+                                            "und andere Dokumente langfristig zu speichern, sodass man aber Zugriff von jedem Gerät aus hat, ist es auch möglich Dateien an andere freizugeben.\nClouds eignen sich " +
+                                            "in diesem Fall für jede der zu Beginn gestellten Fragen, solange Sender und Empfänger über Internet verfügen.\nFolgende Cloud-Speicher werden in dieser App behandelt:")
+                            }
+                        },
+                        getChapterID(context, "Dateien per Cloud freigeben", "Dateifreigabe")?.let {
+                            getContentTypeID(context, "unsorted-list-element")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "- Google Drive\n- Microsoft OneDrive\n- Dropbox")
+                            }
+                        },
+                        getChapterID(context, "Dateien per Cloud freigeben", "Dateifreigabe")?.let {
+                            getContentTypeID(context, "hint")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Die Oberfläche der Cloud-Services kann sich ab und an mal ändern, aber ich versuche die Artikel so gut es geht aktuell zu halten.")
+                            }
+                        },
 
 
                         //!!!IMPORTANT ARTICLES!!!//
@@ -247,101 +307,251 @@ abstract class LocalDatabase : RoomDatabase() {
                         //Artikel: Tastenkombinationen
 
                             //Kapitel: Was sind Tastenkombinationen?
-                            ChapterContent(idChapter = getChapterID(context, "Was ist das?", "Tastenkombinationen"), position = 1, idContentType = getContentTypeID(context, "text"),
-                                content = "Um bspw. in Programmen auf dem PC schneller arbeiten zu können, gibt es sogenannte Tastekombinationen (auch Kürzel oder Shortcuts). " +
-                                        "Daf\u00F6r m\u00F6ssen nur ein paar Tasten auf der Tastatur gleichzeitig gedr\u00F6t sein. Das heißt, man kann sie auch nacheinander dr\u00F6cken, " +
-                                        "solange man die bereits gedr\u00F6ckten Tasten solange gedr\u00F6ckt h\u00E4lt, bis man alle gedr\u00F6ckt wurden.\n" +
-                                        "In diesem Artikel findet sich eine Tabelle mit allerlei möglichen Shortcuts. Seien es allseits bekannte Dinge, wie kopieren und einfügen, " +
-                                        "aber auch Dinge wie die Schriftart in Word zu \u00E4ndern (programmspezifischere Funktionen) sind mit dabei."),
+                        getChapterID(context, "Was ist das?", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "text")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Um bspw. in Programmen auf dem PC schneller arbeiten zu können, gibt es sogenannte Tastekombinationen (auch Kürzel oder Shortcuts). " +
+                                            "Daf\u00F6r m\u00F6ssen nur ein paar Tasten auf der Tastatur gleichzeitig gedr\u00F6t sein. Das heißt, man kann sie auch nacheinander dr\u00F6cken, " +
+                                            "solange man die bereits gedr\u00F6ckten Tasten solange gedr\u00F6ckt h\u00E4lt, bis man alle gedr\u00F6ckt wurden.\n" +
+                                            "In diesem Artikel findet sich eine Tabelle mit allerlei möglichen Shortcuts. Seien es allseits bekannte Dinge, wie kopieren und einfügen, " +
+                                            "aber auch Dinge wie die Schriftart in Word zu \u00E4ndern (programmspezifischere Funktionen) sind mit dabei.")
+                            }
+                        },
 
                             //Kapitel: Grundlagen
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 1, idContentType = getContentTypeID(context, "chapter-hint"),
-                                content = "In diesem Bereich finden sich Shortcuts für den allgemeinen Gebrauch von Computern und Smartphones."),
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "chapter-hint")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "In diesem Bereich finden sich Shortcuts für den allgemeinen Gebrauch von Computern und Smartphones.")
+                            }
+                        },
 
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 2, idContentType = getContentTypeID(context, "card-start"),
-                                content = "<empty>"),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 3, idContentType = getContentTypeID(context, "header3"),
-                                content = "R\u00F6ckg\u00E4ngig"),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 4, idContentType = getContentTypeID(context, "hint"),
-                                content = "In fast jedem Programm und auch auf dem Desktop oder dem Explorer kann man mit dieser Funktion jeden Fehler rückgängig machen. Funktioniert auch in vielen Android Apps."),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 5, idContentType = getContentTypeID(context, "one-line-info"),
-                                content = "Tastenkombination: "),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 6, idContentType = getContentTypeID(context, "one-line-info-element"),
-                                content = "STRG + Z"),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 7, idContentType = getContentTypeID(context, "one-line-info"),
-                                content = "Plattformen: "),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 8, idContentType = getContentTypeID(context, "one-line-info-element"),
-                                content = "Windows, Linux, Mac, Android, IOS"),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 9, idContentType = getContentTypeID(context, "card-end"),
-                                content = "<empty>"),
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "card-start")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "<empty>")
+                            }
+                        },
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "header3")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "R\u00F6ckg\u00E4ngig")
+                            }
+                        },
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "hint")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "In fast jedem Programm und auch auf dem Desktop oder dem Explorer kann man mit dieser Funktion jeden Fehler rückgängig machen. Funktioniert auch in vielen Android Apps.")
+                            }
+                        },
+                        getContentTypeID(context, "one-line-info")?.let {
+                            getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let { it1 ->
+                                ChapterContent(idChapter = it1, idContentType = it,
+                                    content = "Tastenkombination: ")
+                            }
+                        },
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "one-line-info-element")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "STRG + Z")
+                            }
+                        },
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "one-line-info")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Plattformen: ")
+                            }
+                        },
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "one-line-info-element")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Windows, Linux, Mac, Android, IOS")
+                            }
+                        },
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "card-end")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "<empty>")
+                            }
+                        },
 
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 10, idContentType = getContentTypeID(context, "card-start"),
-                                content = "<empty>"),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 11, idContentType = getContentTypeID(context, "header3"),
-                                content = "Wiederherstellen"),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 12, idContentType = getContentTypeID(context, "hint"),
-                                content = "Genauso, wie man Schritte zurück gehen kann, lassen sich die zurückgegangen Schritte auch wiederherstellen. Dies funktioniert ebenfalls in fast allen Programmen. " +
-                                        "Auf Computern kann in manchen Fällen das Programm aber auch auf die Alternative zurückgreifen, jedoch wird eine dieser Kombinationen immer gehen."),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 13, idContentType = getContentTypeID(context, "one-line-info"),
-                                content = "Tastenkombination: "),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 14, idContentType = getContentTypeID(context, "one-line-info-element"),
-                                content = "STRG + Y"),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 15, idContentType = getContentTypeID(context, "one-line-info"),
-                                content = "Alternative Kombination: "),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 16, idContentType = getContentTypeID(context, "one-line-info-element"),
-                                content = "STRG + SHIFT + Z"),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 17, idContentType = getContentTypeID(context, "one-line-info"),
-                                content = "Plattformen: "),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 18, idContentType = getContentTypeID(context, "one-line-info-element"),
-                                content = "Windows, Linux, Mac, Android, IOS"),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 19, idContentType = getContentTypeID(context, "card-end"),
-                                content = "<empty>"),
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "card-start")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "<empty>")
+                            }
+                        },
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "header3")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Wiederherstellen")
+                            }
+                        },
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "hint")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Genauso, wie man Schritte zurück gehen kann, lassen sich die zurückgegangen Schritte auch wiederherstellen. Dies funktioniert ebenfalls in fast allen Programmen. " +
+                                            "Auf Computern kann in manchen Fällen das Programm aber auch auf die Alternative zurückgreifen, jedoch wird eine dieser Kombinationen immer gehen.")
+                            }
+                        },
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "one-line-info")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Tastenkombination: ")
+                            }
+                        },
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "one-line-info-element")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "STRG + Y")
+                            }
+                        },
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "one-line-info")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Alternative Kombination: ")
+                            }
+                        },
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "one-line-info-element")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "STRG + SHIFT + Z")
+                            }
+                        },
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "one-line-info")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Plattformen: ")
+                            }
+                        },
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "one-line-info-element")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Windows, Linux, Mac, Android, IOS")
+                            }
+                        },
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "card-end")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "<empty>")
+                            }
+                        },
 
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 20, idContentType = getContentTypeID(context, "card-start"),
-                                content = "<empty>"),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 21, idContentType = getContentTypeID(context, "header3"),
-                                content = "Alles Markieren"),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 22, idContentType = getContentTypeID(context, "hint"),
-                                content = "Durch diese Tastenkombination wird der gesamte Inhalt im bearbeitbaren Bereich markiert."),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 23, idContentType = getContentTypeID(context, "one-line-info"),
-                                content = "Tastenkombination: "),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 24, idContentType = getContentTypeID(context, "one-line-info-element"),
-                                content = "STRG + A"),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 27, idContentType = getContentTypeID(context, "one-line-info"),
-                                content = "Plattformen: "),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 28, idContentType = getContentTypeID(context, "one-line-info-element"),
-                                content = "Windows, Linux, Mac, Android, IOS"),
-                            ChapterContent(idChapter = getChapterID(context, "Grundlagen", "Tastenkombinationen"), position = 29, idContentType = getContentTypeID(context, "card-end"),
-                                content = "<empty>"),
+                        getContentTypeID(context, "card-start")?.let {
+                            getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let { it1 ->
+                                ChapterContent(idChapter = it1, idContentType = it,
+                                    content = "<empty>")
+                            }
+                        },
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "header3")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Alles Markieren")
+                            }
+                        },
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "hint")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Durch diese Tastenkombination wird der gesamte Inhalt im bearbeitbaren Bereich markiert.")
+                            }
+                        },
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "one-line-info")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Tastenkombination: ")
+                            }
+                        },
+                        getContentTypeID(context, "one-line-info-element")?.let {
+                            getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let { it1 ->
+                                ChapterContent(idChapter = it1, idContentType = it,
+                                    content = "STRG + A")
+                            }
+                        },
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "one-line-info")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Plattformen: ")
+                            }
+                        },
+                        getContentTypeID(context, "one-line-info-element")?.let {
+                            getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let { it1 ->
+                                ChapterContent(idChapter = it1, idContentType = it,
+                                    content = "Windows, Linux, Mac, Android, IOS")
+                            }
+                        },
+                        getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "card-end")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "<empty>")
+                            }
+                        },
 
 
                             //Kapitel: Word
-                            ChapterContent(idChapter = getChapterID(context, "Word", "Tastenkombinationen"), position = 1, idContentType = getContentTypeID(context, "chapter-hint"),
-                                content = "In diesem Bereich finden sich Shortcuts für speziell für Word."),
+                        getChapterID(context, "Word", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "chapter-hint")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "In diesem Bereich finden sich Shortcuts für speziell für Word.")
+                            }
+                        },
 
-                            ChapterContent(idChapter = getChapterID(context, "Word", "Tastenkombinationen"), position = 2, idContentType = getContentTypeID(context, "card-start"),
-                                content = "<empty>"),
-                            ChapterContent(idChapter = getChapterID(context, "Word", "Tastenkombinationen"), position = 3, idContentType = getContentTypeID(context, "header3"),
-                                content = "Fetter Text"),
-                            ChapterContent(idChapter = getChapterID(context, "Word", "Tastenkombinationen"), position = 4, idContentType = getContentTypeID(context, "hint"),
-                                content = "Mit dieser Tastenkombination kann der markierte Text fett gemacht oder dieser Textstil wieder entfernt werden."),
-                            ChapterContent(idChapter = getChapterID(context, "Word", "Tastenkombinationen"), position = 5, idContentType = getContentTypeID(context, "one-line-info"),
-                                content = "Tastenkombination: "),
-                            ChapterContent(idChapter = getChapterID(context, "Word", "Tastenkombinationen"), position = 6, idContentType = getContentTypeID(context, "one-line-info-element"),
-                                content = "STRG + F"),
-                            ChapterContent(idChapter = getChapterID(context, "Word", "Tastenkombinationen"), position = 7, idContentType = getContentTypeID(context, "one-line-info"),
-                                content = "Plattformen: "),
-                            ChapterContent(idChapter = getChapterID(context, "Word", "Tastenkombinationen"), position = 8, idContentType = getContentTypeID(context, "one-line-info-element"),
-                                content = "Windows, Linux, Mac, Android, IOS"),
-                            ChapterContent(idChapter = getChapterID(context, "Word", "Tastenkombinationen"), position = 9, idContentType = getContentTypeID(context, "card-end"),
-                                content = "<empty>"),
+                        getChapterID(context, "Word", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "card-start")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "<empty>")
+                            }
+                        },
+                        getChapterID(context, "Word", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "header3")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Fetter Text")
+                            }
+                        },
+                        getChapterID(context, "Word", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "hint")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Mit dieser Tastenkombination kann der markierte Text fett gemacht oder dieser Textstil wieder entfernt werden.")
+                            }
+                        },
+                        getChapterID(context, "Word", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "one-line-info")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Tastenkombination: ")
+                            }
+                        },
+                        getContentTypeID(context, "one-line-info-element")?.let {
+                            getChapterID(context, "Word", "Tastenkombinationen")?.let { it1 ->
+                                ChapterContent(idChapter = it1, idContentType = it,
+                                    content = "STRG + F")
+                            }
+                        },
+                        getChapterID(context, "Word", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "one-line-info")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Plattformen: ")
+                            }
+                        },
+                        getChapterID(context, "Word", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "one-line-info-element")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "Windows, Linux, Mac, Android, IOS")
+                            }
+                        },
+                        getChapterID(context, "Word", "Tastenkombinationen")?.let {
+                            getContentTypeID(context, "card-end")?.let { it1 ->
+                                ChapterContent(idChapter = it, idContentType = it1,
+                                    content = "<empty>")
+                            }
+                        },
 
 
                     )
 
                     for (content in contents)
                     {
-                        getInstance(context).chapterContentDao().insert(content)
+                        if (content != null) {
+                            getInstance(context).chapterContentDao().insert(content)
+                        }
                     }
 
                     Log.d("AppDataBaseCallback", "Content inserted successfully")
@@ -351,17 +561,17 @@ abstract class LocalDatabase : RoomDatabase() {
                 //--------------CONNECTIONS-BETWEEN-TABLES--------------//
             }
 
-            private fun getArticleID(context: Context, title: String): Long
+            private fun getArticleID(context: Context, title: String): Long?
             {
                 return getInstance(context).articleDao().getArticleID(title)
             }
 
-            private fun getChapterID(context: Context, chapter: String, article: String): Long
+            private fun getChapterID(context: Context, chapter: String, article: String): Long?
             {
                 return getInstance(context).chapterDao().getChapterFromArticle(chapter, getArticleID(context, article))
             }
 
-            private fun getContentTypeID(context: Context, title: String): Long
+            private fun getContentTypeID(context: Context, title: String): Long?
             {
                 return getInstance(context).contentTypeDao().getContentTypeID(title)
             }
@@ -379,7 +589,8 @@ data class Article(
     val title: String,
     val description: String,
     val icon: Drawable?,
-    val length: Short
+    val length: Short,
+    val hint: String?
 )
 
 @Entity(tableName = "tag")
@@ -390,8 +601,8 @@ data class Tag(
 )
 
 @Entity(tableName = "articleTags", foreignKeys = [
-    ForeignKey(entity = Article::class, parentColumns = ["articleID"], childColumns = ["idArticle"]),
-    ForeignKey(entity = Tag::class, parentColumns = ["tagID"], childColumns = ["idTag"])
+    ForeignKey(entity = Article::class, parentColumns = ["articleID"], childColumns = ["idArticle"], onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE),
+    ForeignKey(entity = Tag::class, parentColumns = ["tagID"], childColumns = ["idTag"], onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE)
 ],
     indices = [Index(value = ["idArticle"]), Index(value = ["idTag"])])
 data class ArticleTags(
@@ -403,7 +614,7 @@ data class ArticleTags(
 )
 
 @Entity(tableName = "chapter", foreignKeys = [
-    ForeignKey(entity = Article::class, parentColumns = ["articleID"], childColumns = ["idArticle"])
+    ForeignKey(entity = Article::class, parentColumns = ["articleID"], childColumns = ["idArticle"], onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE)
 ],
     indices = [Index(value = ["idArticle"])])
 data class Chapter(
@@ -411,15 +622,14 @@ data class Chapter(
     val chapterID: Long = 0,
     @ColumnInfo(name = "idArticle")
     val idArticle: Long,
-    val position: Long,
     val title: String,
     val description: String?,
     val icon: Drawable?
 )
 
 @Entity(tableName = "chapterContent", foreignKeys = [
-    ForeignKey(entity = Chapter::class, parentColumns = ["chapterID"], childColumns = ["idChapter"]),
-    ForeignKey(entity = ContentType::class, parentColumns = ["contentTypeID"], childColumns = ["idContentType"])
+    ForeignKey(entity = Chapter::class, parentColumns = ["chapterID"], childColumns = ["idChapter"], onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE),
+    ForeignKey(entity = ContentType::class, parentColumns = ["contentTypeID"], childColumns = ["idContentType"], onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE)
 ],
     indices = [Index(value = ["idChapter"]), Index(value = ["idContentType"])])
 data class ChapterContent(
@@ -427,7 +637,6 @@ data class ChapterContent(
     val chapterContentID: Long = 0,
     @ColumnInfo(name = "idChapter")
     val idChapter: Long,
-    val position: Long,
     @ColumnInfo(name = "idContentType")
     val idContentType: Long,
     val content: String
@@ -465,24 +674,33 @@ interface ArticleDao {
 
     @Query("SELECT article.articleID FROM article WHERE article.title = :articleTitle")
     fun getArticleID(articleTitle: String) : Long
+
+    @Query("SELECT article.* FROM article inner join articleTags inner join tag ON article.articleID == articleTags.idArticle AND tag.tagID == articleTags.idTag WHERE tag.title == \"favourites\"")
+    fun getFavouritesID() : Flow<List<Article>>
+
+    @Query("SELECT article.* FROM article inner join articleTags inner join tag ON article.articleID == articleTags.idArticle AND tag.tagID == articleTags.idTag WHERE tag.title == \"recommended\"")
+    fun getRecommendedID() : Flow<List<Article>>
 }
 
 @Dao
 interface ChapterDao {
     @Insert
-    suspend fun insert(chapter: Chapter): Long
+    suspend fun insert(chapter: Chapter): Long?
 
     @Query("SELECT * FROM chapter")
     fun getChapters() : Flow<List<Chapter>>
 
     @Query("SELECT chapter.chapterID FROM chapter, article WHERE chapter.title = :chapterTitle AND article.articleID = :articleID")
-    fun getChapterFromArticle(chapterTitle: String, articleID: Long) : Long
+    fun getChapterFromArticle(chapterTitle: String, articleID: Long?) : Long?
+
+    @Query("SELECT chapter.* FROM chapter, article WHERE article.articleID = :articleID")
+    fun getChaptersFromArticle(articleID: Long) : Flow<List<Chapter>>
 }
 
 @Dao
 interface ChapterContentDao {
     @Insert
-    suspend fun insert(chapterContent: ChapterContent): Long
+    suspend fun insert(chapterContent: ChapterContent): Long?
 
     @Query("SELECT chapterContent.* FROM chapterContent, chapter WHERE chapter.chapterID = :chapter")
     fun getChapterContent(chapter: Long) : Flow<List<ChapterContent>>
@@ -491,11 +709,14 @@ interface ChapterContentDao {
 @Dao
 interface ContentTypeDao {
     @Insert
-    suspend fun insert(contentType: ContentType) : Long
+    suspend fun insert(contentType: ContentType) : Long?
 
     @Query("SELECT * FROM contentType")
     fun getContentTypes() : Flow<List<ContentType>>
 
+    @Query("SELECT type FROM contentType WHERE contentTypeID = :ID")
+    fun getContentType(ID: Long) : String?
+
     @Query("SELECT contentType.contentTypeID FROM contentType WHERE contentType.type = :type")
-    fun getContentTypeID(type: String): Long
+    fun getContentTypeID(type: String): Long?
 }

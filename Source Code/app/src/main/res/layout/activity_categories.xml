@@ -33,6 +33,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+        <Button
+            android:id="@+id/buttonCategoryNew"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="New" />
+
+        <Space android:layout_weight="1">
+
+        </Space>
+
+        <Button
+            android:id="@+id/buttonCategoryAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="All" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
             <Button
                 android:id="@+id/buttonCategoryAndroid"
                 android:layout_width="wrap_content"
