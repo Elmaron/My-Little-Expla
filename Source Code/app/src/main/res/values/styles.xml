@@ -70,6 +70,11 @@
         <item name="android:textColor">@color/TextcolorPrimary</item>
     </style>
 
+    <style name="Text.Title" parent="Text">
+        <item name="android:textSize">40sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
     <style name="Text.Description" parent="Text">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
