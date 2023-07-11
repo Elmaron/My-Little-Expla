@@ -1,6 +1,11 @@
 package com.elmaronstanford.mylittleexpla
+
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.util.Base64
 import android.util.Log
 import androidx.room.ColumnInfo
 import androidx.room.Dao
@@ -21,11 +26,28 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import java.util.Date
-import java.util.Locale
+import java.io.ByteArrayOutputStream
+
+
+object Converters {
+    @TypeConverter
+    fun fromString(value: String?): Drawable {
+        return BitmapDrawable(BitmapFactory.decodeFile(value))
+    }
+
+    @TypeConverter
+    fun drawableToString(drawable: Drawable): String {
+        val bitmap = (drawable as BitmapDrawable).bitmap
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        val bitmapBytes = stream.toByteArray()
+        return Base64.encodeToString(bitmapBytes, Base64.DEFAULT)
+    }
+}
 
 
 @Database(entities = [Article::class, Tag::class, ArticleTags::class, Chapter::class, ChapterContent::class, ContentType::class], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class LocalDatabase : RoomDatabase() {
 
     //------------ADDING-INTERFACES------------//
@@ -472,7 +494,7 @@ interface ContentTypeDao {
     suspend fun insert(contentType: ContentType) : Long
 
     @Query("SELECT * FROM contentType")
-    fun getContentTypes() : Flow<List<Tag>>
+    fun getContentTypes() : Flow<List<ContentType>>
 
     @Query("SELECT contentType.contentTypeID FROM contentType WHERE contentType.type = :type")
     fun getContentTypeID(type: String): Long
