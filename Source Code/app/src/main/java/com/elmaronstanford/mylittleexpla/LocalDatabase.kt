@@ -25,6 +25,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 
@@ -71,7 +72,7 @@ abstract class LocalDatabase : RoomDatabase() {
                     LocalDatabase::class.java,
                     "localDatabase"
                 )
-                    .addCallback(AppDatabaseCallback(context)) // Add the callback here
+                    .addCallback(AppDatabaseCallback(context))// Add the callback here
                     .build()
                 INSTANCE = instance
                 instance
@@ -92,62 +93,38 @@ abstract class LocalDatabase : RoomDatabase() {
                 // ä = \u00E4
                 // ü = \u00FC
 
+                createTags(context)
+                createContentTypes(context)
+                createArticles(context)
+                createChapters(context)
+                createChapterContents(context)
 
+            }
 
-
-
+            @OptIn(DelicateCoroutinesApi::class)
+            override fun onOpen(db: SupportSQLiteDatabase) {
+                super.onOpen(db)
                 GlobalScope.launch(Dispatchers.IO) {
-
-                    //TAGS//
-
-                    val appTags = listOf(
-                        Tag(title = "favourites"),
-                        Tag(title = "recommended"),
-                        Tag(title = "android"),
-                        Tag(title = "windows")
-                    )
-
-                    for (appTag in appTags)
+                    if (getInstance(context).articleDao().getArticles().first().isEmpty())
                     {
-                        getInstance(context).tagDao().insert(appTag)
+                        createArticles(context)
                     }
-
-                    Log.d("AppDataBaseCallback", "Tags inserted successfully")
-
-
-
-                    //CONTENTTYPE//
-
-                    val allContentTypes = listOf(
-                        ContentType(type = "text"),
-                        ContentType(type = "header1"),
-                        ContentType(type = "header2"),
-                        ContentType(type = "header3"),
-                        ContentType(type = "description"),
-                        ContentType(type = "one-line-info"),            //[Beispiel] Tastenkombination:
-                        ContentType(type = "one-line-info-element"),    //[Beispiel]                        STRG + V
-                        ContentType(type = "one-line-info-end"),
-                        ContentType(type = "unsorted-list-element"),    //[Beispiel]  - blabla
-                        ContentType(type = "sorted-list-element"),      //[Beispiel] 1. blabla
-                        ContentType(type = "image"),
-                        ContentType(type = "hint"),
-                        ContentType(type = "chapter-hint"),
-                        ContentType(type = "card-start"),
-                        ContentType(type = "card-end")
-                    )
-
-                    for (allContentType in allContentTypes)
+                    if(getInstance(context).chapterDao().getChapters().first().isEmpty() && getInstance(context).articleDao().getArticles().first().isNotEmpty())
                     {
-                        getInstance(context).contentTypeDao().insert(allContentType)
+                        createChapters(context)
                     }
+                    if(getInstance(context).chapterContentDao().getAllChapterContents().first().isEmpty() && getInstance(context).chapterDao().getChapters().first().isNotEmpty() && getInstance(context).articleDao().getArticles().first().isNotEmpty())
+                    {
+                        createChapterContents(context)
+                    }
+                }
 
-                    Log.d("AppDataBaseCallback", "Contenttypes inserted successfully")
+            }
 
-
-
-
-                    //ARTICLES//
-
+            @OptIn(DelicateCoroutinesApi::class)
+            private fun createArticles(context: Context)
+            {
+                GlobalScope.launch (Dispatchers.IO) {
                     //Hinweise zur Länge: [1 -> activity_article_short][2 -> activity_article_middle][3 -> activity_article_long]
                     //Hinweise zur Länge Short: Beschreibung ist der Inhalt des Artikels
 
@@ -162,16 +139,13 @@ abstract class LocalDatabase : RoomDatabase() {
                     }
 
                     Log.d("AppDataBaseCallback", "Articles inserted successfully")
+                }
+            }
 
-
-
-
-                    //CHAPTERS//
-
-
-                    Log.d("Chaptertest", "Return of getArticleID: " + getInstance(context).articleDao().getArticleID("Dateifreigabe"))
-                    Log.d("Chaptertest", "Return of getArticleID: " + getArticleID(context, "Tastenkombinationen"))
-
+            @OptIn(DelicateCoroutinesApi::class)
+            private fun createChapters(context: Context)
+            {
+                GlobalScope.launch (Dispatchers.IO) {
                     val myChapters = listOf(
 
                         //Artikel: Dateifreigabe
@@ -199,15 +173,18 @@ abstract class LocalDatabase : RoomDatabase() {
                     }
 
                     Log.d("AppDataBaseCallback", "Chapters inserted successfully")
+                }
+            }
 
-
-
-                    //CONTENT//
+            @OptIn(DelicateCoroutinesApi::class)
+            private fun createChapterContents(context: Context)
+            {
+                GlobalScope.launch (Dispatchers.IO) {
                     val contents = listOf(
 
                         //Artikel: Dateifreigabe
 
-                            //Kapitel: Möglichkeiten der Dateifreigabe
+                        //Kapitel: Möglichkeiten der Dateifreigabe
                         getChapterID(context, "M\u00F6glichkeiten der Dateifreigabe", "Dateifreigabe")?.let {
                             getContentTypeID(context, "text")?.let { it1 ->
                                 ChapterContent(idChapter = it, idContentType = it1,
@@ -233,7 +210,7 @@ abstract class LocalDatabase : RoomDatabase() {
                             }
                         },
 
-                            //Kapitel: Freigabe per Direktverbindung
+                        //Kapitel: Freigabe per Direktverbindung
                         getChapterID(context, "Freigabe per Direktverbindung", "Dateifreigabe")?.let {
                             getContentTypeID(context, "text")?.let { it1 ->
                                 ChapterContent(idChapter = it, idContentType = it1,
@@ -255,7 +232,7 @@ abstract class LocalDatabase : RoomDatabase() {
                             }
                         },
 
-                            //Kapitel: Dateifreigabe per App
+                        //Kapitel: Dateifreigabe per App
                         getChapterID(context, "Dateifreigabe per App", "Dateifreigabe")?.let {
                             getContentTypeID(context, "text")?.let { it1 ->
                                 ChapterContent(idChapter = it, idContentType = it1,
@@ -279,7 +256,7 @@ abstract class LocalDatabase : RoomDatabase() {
                             }
                         },
 
-                            //Kapitel: Dateien per Cloud freigeben
+                        //Kapitel: Dateien per Cloud freigeben
                         getChapterID(context, "Dateien per Cloud freigeben", "Dateifreigabe")?.let {
                             getContentTypeID(context, "text")?.let { it1 ->
                                 ChapterContent(idChapter = it, idContentType = it1,
@@ -306,7 +283,7 @@ abstract class LocalDatabase : RoomDatabase() {
 
                         //Artikel: Tastenkombinationen
 
-                            //Kapitel: Was sind Tastenkombinationen?
+                        //Kapitel: Was sind Tastenkombinationen?
                         getChapterID(context, "Was ist das?", "Tastenkombinationen")?.let {
                             getContentTypeID(context, "text")?.let { it1 ->
                                 ChapterContent(idChapter = it, idContentType = it1,
@@ -318,7 +295,7 @@ abstract class LocalDatabase : RoomDatabase() {
                             }
                         },
 
-                            //Kapitel: Grundlagen
+                        //Kapitel: Grundlagen
                         getChapterID(context, "Grundlagen", "Tastenkombinationen")?.let {
                             getContentTypeID(context, "chapter-hint")?.let { it1 ->
                                 ChapterContent(idChapter = it, idContentType = it1,
@@ -487,7 +464,7 @@ abstract class LocalDatabase : RoomDatabase() {
                         },
 
 
-                            //Kapitel: Word
+                        //Kapitel: Word
                         getChapterID(context, "Word", "Tastenkombinationen")?.let {
                             getContentTypeID(context, "chapter-hint")?.let { it1 ->
                                 ChapterContent(idChapter = it, idContentType = it1,
@@ -545,7 +522,7 @@ abstract class LocalDatabase : RoomDatabase() {
                         },
 
 
-                    )
+                        )
 
                     for (content in contents)
                     {
@@ -556,10 +533,66 @@ abstract class LocalDatabase : RoomDatabase() {
 
                     Log.d("AppDataBaseCallback", "Content inserted successfully")
                 }
-
-
-                //--------------CONNECTIONS-BETWEEN-TABLES--------------//
             }
+
+            @OptIn(DelicateCoroutinesApi::class)
+            private fun createTags(context: Context)
+            {
+                GlobalScope.launch (Dispatchers.IO) {
+                    val appTags = listOf(
+                        Tag(title = "favourites"),
+                        Tag(title = "recommended"),
+                        Tag(title = "android"),
+                        Tag(title = "windows")
+                    )
+
+                    for (appTag in appTags) {
+                        getInstance(context).tagDao().insert(appTag)
+                    }
+
+                    for (instance in getInstance(context).tagDao().getTags().first()) {
+                        Log.d(
+                            "AppDataBaseCallback",
+                            "Tag: " + instance.tagID + "(Title: " + instance.title + ")"
+                        )
+                    }
+                    Log.d("AppDataBaseCallback", "Tags inserted successfully")
+                }
+            }
+
+            @OptIn(DelicateCoroutinesApi::class)
+            private fun createContentTypes(context: Context)
+            {
+                GlobalScope.launch (Dispatchers.IO) {
+                    val allContentTypes = listOf(
+                        ContentType(type = "text"),
+                        ContentType(type = "header1"),
+                        ContentType(type = "header2"),
+                        ContentType(type = "header3"),
+                        ContentType(type = "description"),
+                        ContentType(type = "one-line-info"),            //[Beispiel] Tastenkombination:
+                        ContentType(type = "one-line-info-element"),    //[Beispiel]                        STRG + V
+                        ContentType(type = "one-line-info-end"),
+                        ContentType(type = "unsorted-list-element"),    //[Beispiel]  - blabla
+                        ContentType(type = "sorted-list-element"),      //[Beispiel] 1. blabla
+                        ContentType(type = "image"),
+                        ContentType(type = "hint"),
+                        ContentType(type = "chapter-hint"),
+                        ContentType(type = "card-start"),
+                        ContentType(type = "card-end")
+                    )
+
+                    for (allContentType in allContentTypes)
+                    {
+                        getInstance(context).contentTypeDao().insert(allContentType)
+                    }
+
+                    Log.d("AppDataBaseCallback", "Contenttypes inserted successfully")
+                }
+            }
+
+
+            //--------------CONNECTIONS-BETWEEN-TABLES--------------//
 
             private fun getArticleID(context: Context, title: String): Long?
             {
@@ -704,6 +737,9 @@ interface ChapterContentDao {
 
     @Query("SELECT chapterContent.* FROM chapterContent, chapter WHERE chapter.chapterID = :chapter")
     fun getChapterContent(chapter: Long) : Flow<List<ChapterContent>>
+
+    @Query("SELECT * FROM chapterContent")
+    fun getAllChapterContents() : Flow<List<ChapterContent>>
 }
 
 @Dao

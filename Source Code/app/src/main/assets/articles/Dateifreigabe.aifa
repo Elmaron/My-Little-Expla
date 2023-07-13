@@ -1,0 +1,78 @@
+article-interpreter-for-apps{version=1}
+article
+{
+    header {
+        type{middle}
+        description{Möglichkeiten der Dateifreigabe in Windows, Android und co}
+        icon{}
+        article-hint{}
+    }
+    body {
+        chapter (name="Möglichkeiten der Dateifreigabe") {
+            text {
+                Es gibt einige grundlegende Dinge, die man sich fragen sollte, bevor man eine Datei versendet. Dazu gehören folgende Fragen:
+                unsorted-list{
+                    element{Wie muss die Datei ankommen?}
+                    element{Wie viele Empfänger hat die Datei?}
+                    element{Wie groß ist die Datei?}
+                    element{Wie viele Dateien sollen versandt werden?}
+                    element{Wie lange soll die Datei zur Verfügung stehen?}
+                }
+                Im Hinblick auf diese Fragen können unsere Möglichkeiten in 3 verschiedene Kategorien eingeteilt werden:
+                sorted-list{
+                    element{Freigabe per Direktverbindung}
+                    element{Dateifreigabe per App}
+                    element{Dateien per Cloud freigeben}
+                }
+            }
+            chapter (name="Freigabe per Direktverbindung"; hint="Sollten mir in Zukunft noch mehr und bessere Möglichkeiten für eine Direktverbindung bekannt sein, werde ich diese hier ergänzen.") {
+                text {
+                    Mit Direktverbindung sind sowohl klassische Methoden (wie bspw. per Kabel oder USB-Stick), als auch kabellose Verbindungen wie bspw. über Bluetooth gemeint.\n
+                    Direktverbindungen eignen sich für eine schnelle und sichere Freigabe von einzelnen Dateien an einen einzelnen Empfänger am besten. Die Dateien bekommen in
+					diesem Fall (bis auf Quick Share) auch keine zeitliche Begrenzung.\n
+                    Folgende Direktverbindungen werden in eigenen Artikeln erklärt:
+                }
+                unsorted-list {
+                    element{Kabelgebundene Direktverbindungen}
+                    element{Kabellose Übertragungsmöglichkeiten:}
+                    unsorted-list{
+                        element{Bluetooth}
+                        element{Nearby Share}
+                        element{Quick Share (Samsung)}
+                    }
+                }
+            }
+            chapter (name="Dateifreigabe per App", hint="Da sich die Apps ständig verändern, ist es möglich, das die Artikel nicht immer ganz auf dem neuesten Stand sind. Allerdings versuche ich sie so" + 
+														"bald wie möglich zu aktualisieren. Die Funktionsweise der Freigabe sollte in den entsprechenden Apps aber gleich bleiben.") {
+				text {
+                    Mit der Dateifreigabe per App sind vor allem Apps wie Whatsapp, Signal, aber auch Instagram gemeint. Wie die Dateifreigabe in diesen funktioniert, 
+					wird in den jeweiligen Artikeln zu den Apps behandelt.\n
+					Per App können zumeist dauerhafte Freigaben von einzelnen oder mehreren Dateien an einen oder mehrere Empfänger erstellt werden. Manche Apps bieten 
+					sogar zusätzliche Möglichkeiten zur Einstellung, was eine bessere Kontrolle über die Verwendung und weitere Verbreitung von Dateien ermöglicht.\n
+					Folgende Apps werden in eigenen Artikeln behandelt:
+                }
+                unsorted-list {
+                    element{Whatsapp}
+                    element{Signal}
+					element{Instagram}
+					element{Nachrichten (nur auf Samsung Smartphones verfügbar)}
+					element{Messages (by Google)}
+					element{Gmail}
+                }
+            }
+            chapter (name="Dateien per Cloud freigeben") {
+				text {
+                    Clouds haben viele Funktionen. Während die Wolken (deutsche Übersetzung von &quot;Cloud&quot;) allerdings vor allem dafür geeignet sind, Dateien wie Fotos, Videos 
+					und andere Dokumente langfristig zu speichern, sodass man aber Zugriff von jedem Gerät aus hat, ist es auch möglich Dateien an andere freizugeben.\n
+					Clouds eignen sich in diesem Fall für jede der zu Beginn gestellten Fragen, solange Sender und Empfänger über Internet verfügen.\n
+					Folgende Cloud-Speicher werden in dieser App behandelt:
+                }
+                unsorted-list {
+                    element{Google Drive}
+                    element{Microsoft OneDrive}
+                    element{Dropbox}
+                }
+            }
+        }
+    }
+}

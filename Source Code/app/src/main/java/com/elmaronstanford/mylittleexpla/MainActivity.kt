@@ -1,7 +1,6 @@
 package com.elmaronstanford.mylittleexpla
 
 import android.content.Context
-import com.elmaronstanford.mylittleexpla.LocalDatabase
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,44 +8,80 @@ import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.MenuItem
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
-import androidx.annotation.NonNull
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.allViews
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import java.io.File
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var localDatabase: LocalDatabase
 
+    private lateinit var availableContentTypes: List<ContentType>
+
     private val articleLengthShort: Short = 1
     private val articleLengthMiddle: Short = 2
     private val articleLengthLong: Short = 3
 
+    private val initializeDatabaseScope = MainScope()
+
+    private fun databaseInitializer(): Deferred<Unit> = initializeDatabaseScope.async {
+        availableContentTypes = localDatabase.contentTypeDao().getContentTypes().first()
+    }
+
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //LocalDatabase.createDatabase(this)
+        setContentView(R.layout.activity_initialize_database)
+        findViewById<ProgressBar>(R.id.progressBarInitializeDatabase).setProgress(0)
         localDatabase = LocalDatabase.getInstance(this)
+        initializeDatabaseScope.launch {
+            databaseInitializer().await()
+        }
+        findViewById<ProgressBar>(R.id.progressBarInitializeDatabase).setProgress(100)
+
         if(checkDisplaySize())
         {
             loadTablet()
+        } else
+        {
+            loadPhone()
+        }
+
+        val myFiles = FileLoader(this, "articles", "aifa")
+
+        for (contents in myFiles.getFileContentsFromSubfolder())
+        {
+            for (test in ArticleInterpreter("MyTitle", contents).getTestFile())
+            Log.d("ArticleInterpreter", test)
+        }
+
+        // Log the inserted data from the database
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        if(checkDisplaySize())
+        {
+            super.onBackPressed()
         } else
         {
             loadPhone()
@@ -180,12 +215,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
     private fun loadArticles(articles: Flow<List<Article>>?, context: Context) {
         MainScope().launch {
 
             if (articles != null) {
-                if (!articles.first().isEmpty()) {
+                if (articles.first().isNotEmpty()) {
                     val articleHolder = findViewById<LinearLayout>(R.id.LinearLayoutArticleHolder)
                     articleHolder.removeAllViews()
 
@@ -263,7 +297,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                                 article.title
                             findViewById<TextView>(R.id.textViewArticleHint).text =
                                 article.hint ?: ""
-                            findViewById<Button>(R.id.buttonBack).setOnClickListener { super.onBackPressed() }
+                            findViewById<Button>(R.id.buttonBack).setOnClickListener { this@MainActivity.onBackPressed() }
 
                             when (article.length) {
                                 articleLengthShort -> {
@@ -274,7 +308,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
                                 articleLengthMiddle -> {
                                     findViewById<LinearLayout>(R.id.LinearLayoutArticle).removeAllViews()
-                                    GlobalScope.launch {
+                                    MainScope().launch {
                                         run {
                                             val chapters = localDatabase.chapterDao()
                                                 .getChaptersFromArticle(article.articleID)
@@ -307,8 +341,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         loadArticles(articles, context)
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
     private fun getChapterViews(chapter: Chapter, context: Context): LinearLayout {
+        var textView: TextView
         val finalViews = LinearLayout(context)
         val card = LinearLayout(context)
         val table = TableLayout(context)
@@ -318,96 +352,124 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             ConstraintLayout.LayoutParams.MATCH_PARENT,
             ConstraintLayout.LayoutParams.WRAP_CONTENT
         )
-        GlobalScope.launch {
+        MainScope().launch {
             run {
                 val chapterContents = localDatabase.chapterContentDao().getChapterContent(chapter.chapterID).first()
                 for (chapterContent in chapterContents)
                 {
-                    when(chapterContent.idContentType)
+                    Log.d("Function getChapterView", "ChapterContent: $chapterContent")
+                    for (contentType in availableContentTypes)
+                    if(contentType.contentTypeID == chapterContent.idContentType)
                     {
-                        localDatabase.contentTypeDao().getContentTypeID("text") -> {
-                            val textView = TextView(context)
-                            textView.text = chapterContent.content
-                            if(cardActive) card.addView(textView)
-                            else finalViews.addView(textView)
-                        }
-                        localDatabase.contentTypeDao().getContentTypeID("header1") -> {
-                            val textView = TextView(context)
-                            textView.text = chapterContent.content
-                            if(cardActive) card.addView(textView)
-                            else finalViews.addView(textView)
-                        }
-                        localDatabase.contentTypeDao().getContentTypeID("header2") -> {
-                            val textView = TextView(context)
-                            textView.text = chapterContent.content
-                            if(cardActive) card.addView(textView)
-                            else finalViews.addView(textView)
-                        }
-                        localDatabase.contentTypeDao().getContentTypeID("header3") -> {
-                            val textView = TextView(context)
-                            textView.text = chapterContent.content
-                            if(cardActive) card.addView(textView)
-                            else finalViews.addView(textView)
-                        }
-                        localDatabase.contentTypeDao().getContentTypeID("description") -> {
-                            val textView = TextView(context)
-                            textView.text = chapterContent.content
-                            if(cardActive) card.addView(textView)
-                            else finalViews.addView(textView)
-                        }
-                        localDatabase.contentTypeDao().getContentTypeID("one-line-info") -> {
-                            val textView = TextView(context)
-                            textView.text = chapterContent.content
-                            tableRow.addView(textView)
-                        }
-                        localDatabase.contentTypeDao().getContentTypeID("one-line-info-element") -> {
-                            val textView = TextView(context)
-                            textView.text = chapterContent.content
-                            tableRow.addView(textView)
-                            table.addView(tableRow)
-                            tableRow.removeAllViews()
-                        }
-                        localDatabase.contentTypeDao().getContentTypeID("one-line-info-end") -> {
-                            if(cardActive) card.addView(table)
-                            else finalViews.addView(table)
-                            table.removeAllViews()
-                        }
-                        localDatabase.contentTypeDao().getContentTypeID("sorted-list-element") -> {
-                            val textView = TextView(context)
-                            textView.text = chapterContent.content
-                            if(cardActive) card.addView(textView)
-                            else finalViews.addView(textView)
-                        }
-                        localDatabase.contentTypeDao().getContentTypeID("image") -> {
-                            val textView = TextView(context)
-                            textView.text = chapterContent.content
-                            if(cardActive) card.addView(textView)
-                            else finalViews.addView(textView)
-                        }
-                        localDatabase.contentTypeDao().getContentTypeID("hint") -> {
-                            val textView = TextView(context)
-                            textView.text = chapterContent.content
-                            if(cardActive) card.addView(textView)
-                            else finalViews.addView(textView)
-                        }
-                        localDatabase.contentTypeDao().getContentTypeID("chapter-hint") -> {
-                            val textView = TextView(context)
-                            textView.text = chapterContent.content
-                            if(cardActive) card.addView(textView)
-                            else finalViews.addView(textView)
-                        }
-                        localDatabase.contentTypeDao().getContentTypeID("card-start") -> {
-                            cardActive = true
-                        }
-                        localDatabase.contentTypeDao().getContentTypeID("card-end") -> {
-                            if(table.childCount != 0)
-                            {
-                                card.addView(table)
+                        when(contentType.type) {
+                            "text" -> {
+                                textView = TextView(context)
+                                textView.text = chapterContent.content
+                                if (cardActive) card.addView(textView)
+                                else finalViews.addView(textView)
+                                Log.d("Function getChapterView", "CALLED 1")
+                            }
+
+                            "header1" -> {
+                                textView = TextView(context)
+                                textView.text = chapterContent.content
+                                if (cardActive) card.addView(textView)
+                                else finalViews.addView(textView)
+                                Log.d("Function getChapterView", "CALLED 2")
+                            }
+
+                            "header2" -> {
+                                textView = TextView(context)
+                                textView.text = chapterContent.content
+                                if (cardActive) card.addView(textView)
+                                else finalViews.addView(textView)
+                                Log.d("Function getChapterView", "CALLED 3")
+                            }
+
+                            "header3" -> {
+                                textView = TextView(context)
+                                textView.text = chapterContent.content
+                                if (cardActive) card.addView(textView)
+                                else finalViews.addView(textView)
+                                Log.d("Function getChapterView", "CALLED 4")
+                            }
+
+                            "description" -> {
+                                textView = TextView(context)
+                                textView.text = chapterContent.content
+                                if (cardActive) card.addView(textView)
+                                else finalViews.addView(textView)
+                            }
+
+                            "one-line-info" -> {
+                                textView = TextView(context)
+                                textView.text = chapterContent.content
+                                tableRow.addView(textView)
+                            }
+
+                            "one-line-info-element" -> {
+                                textView = TextView(context)
+                                textView.text = chapterContent.content
+                                tableRow.addView(textView)
+                                table.addView(tableRow)
+                                tableRow.removeAllViews()
+                            }
+
+                            "one-line-info-end" -> {
+                                if (cardActive) card.addView(table)
+                                else finalViews.addView(table)
                                 table.removeAllViews()
                             }
-                            finalViews.addView(card)
-                            card.removeAllViews()
-                            cardActive = false
+
+                            "unsorted-list-element" -> {
+                                textView = TextView(context)
+                                textView.text = chapterContent.content
+                                if (cardActive) card.addView(textView)
+                                else finalViews.addView(textView)
+                                Log.d("Function getChapterView", "CALLED 5")
+                            }
+
+                            "sorted-list-element" -> {
+                                textView = TextView(context)
+                                textView.text = chapterContent.content
+                                if (cardActive) card.addView(textView)
+                                else finalViews.addView(textView)
+                            }
+
+                            "image" -> {
+                                textView = TextView(context)
+                                textView.text = chapterContent.content
+                                if (cardActive) card.addView(textView)
+                                else finalViews.addView(textView)
+                            }
+
+                            "hint" -> {
+                                textView = TextView(context)
+                                textView.text = chapterContent.content
+                                if (cardActive) card.addView(textView)
+                                else finalViews.addView(textView)
+                            }
+
+                            "chapter-hint" -> {
+                                textView = TextView(context)
+                                textView.text = chapterContent.content
+                                if (cardActive) card.addView(textView)
+                                else finalViews.addView(textView)
+                            }
+
+                            "card-start" -> {
+                                cardActive = true
+                            }
+
+                            "card-end" -> {
+                                if (table.childCount != 0) {
+                                    card.addView(table)
+                                    table.removeAllViews()
+                                }
+                                finalViews.addView(card)
+                                card.removeAllViews()
+                                cardActive = false
+                            }
                         }
 
                     }
