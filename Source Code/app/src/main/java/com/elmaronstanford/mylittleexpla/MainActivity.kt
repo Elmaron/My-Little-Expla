@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Layout
 import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
@@ -32,7 +33,7 @@ import java.io.File
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
 
-    private lateinit var localDatabase: LocalDatabase
+    //private lateinit var localDatabase: LocalDatabase
 
     private lateinit var availableContentTypes: List<ContentType>
 
@@ -42,9 +43,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private val initializeDatabaseScope = MainScope()
 
-    private fun databaseInitializer(): Deferred<Unit> = initializeDatabaseScope.async {
-        availableContentTypes = localDatabase.contentTypeDao().getContentTypes().first()
-    }
+    //private fun databaseInitializer(): Deferred<Unit> = initializeDatabaseScope.async {
+    //    availableContentTypes = localDatabase.contentTypeDao().getContentTypes().first()
+    //}
 
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,10 +53,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         //LocalDatabase.createDatabase(this)
         setContentView(R.layout.activity_initialize_database)
         findViewById<ProgressBar>(R.id.progressBarInitializeDatabase).setProgress(0)
-        localDatabase = LocalDatabase.getInstance(this)
-        initializeDatabaseScope.launch {
-            databaseInitializer().await()
-        }
+        //localDatabase = LocalDatabase.getInstance(this)
+        //initializeDatabaseScope.launch {
+        //    databaseInitializer().await()
+        //}
         findViewById<ProgressBar>(R.id.progressBarInitializeDatabase).setProgress(100)
 
         if(checkDisplaySize())
@@ -70,7 +71,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         for (contents in myFiles.getFileContentsFromSubfolder())
         {
-            for (test in ArticleInterpreter("MyTitle", contents).getTestFile())
+            for (test in ArticleInterpreter(this, contents).getArticleInfo())
             Log.d("ArticleInterpreter", test)
         }
 
@@ -132,17 +133,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                         ConstraintLayout.LayoutParams.MATCH_PARENT,
                         ConstraintLayout.LayoutParams.MATCH_PARENT
                     ))
-                loadArticles(localDatabase.articleDao().getFavouritesID(), this)
+                loadArticles("favourite")
                 findViewById<EditText>(R.id.editTextSearchField).doOnTextChanged{ text, start, before, count ->
                     run {
-                        if (text != null) {
-                            GlobalScope.launch(Dispatchers.Main) {
-                                if (text.equals(""))
-                                    loadArticles(localDatabase.articleDao().getFavouritesID(), this@run)
-                                else
-                                    loadArticles(localDatabase.articleDao().getFavouritesID(), text.toString(), this@run)
-                            }
-                        }
+                        loadArticles(text.toString(), "favourite")
                     }
                 }
                 return true
@@ -154,18 +148,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                         ConstraintLayout.LayoutParams.MATCH_PARENT,
                         ConstraintLayout.LayoutParams.MATCH_PARENT
                     ))
-                loadArticles(localDatabase.articleDao().getRecommendedID(), this)
+                loadArticles("recommended")//loadArticles(localDatabase.articleDao().getRecommendedID(), this)
                 findViewById<EditText>(R.id.editTextSearchField).doOnTextChanged{ text, start, before, count ->
                     run {
-                        if (text != null) {
-                            GlobalScope.launch(Dispatchers.Main) {
-                                if (text.equals(""))
-                                    loadArticles(localDatabase.articleDao().getRecommendedID(), this@run)
-                                else
-                                    loadArticles(
-                                        localDatabase.articleDao().getRecommendedID(), text.toString(), this@run)
-                            }
-                        }
+                        loadArticles(text.toString(), "recommended")
                     }
                 }
                 return true
@@ -195,18 +181,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                         ConstraintLayout.LayoutParams.MATCH_PARENT,
                         ConstraintLayout.LayoutParams.MATCH_PARENT
                     ))
-                loadArticles(localDatabase.articleDao().getArticles(), this)
+                loadArticles("")
                 findViewById<EditText>(R.id.editTextSearchField).doOnTextChanged{ text, start, before, count ->
                     run {
-                        if (text != null) {
-                            GlobalScope.launch(Dispatchers.Main) {
-                                if (text.equals(""))
-                                    loadArticles(localDatabase.articleDao().getArticles(), this@run)
-                                else
-                                    loadArticles(
-                                        localDatabase.articleDao().getArticles(), text.toString(), this@run)
-                            }
-                        }
+                       loadArticles(text.toString(), "")
                     }
                 }
                 return true
@@ -215,276 +193,152 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
     }
 
-    private fun loadArticles(articles: Flow<List<Article>>?, context: Context) {
-        MainScope().launch {
-
-            if (articles != null) {
-                if (articles.first().isNotEmpty()) {
-                    val articleHolder = findViewById<LinearLayout>(R.id.LinearLayoutArticleHolder)
-                    articleHolder.removeAllViews()
-
-                    Log.d("loadArticles", "Articles successfully found")
-                    for (article in articles.first()) {
-                        Log.d(
-                            "loadArticles",
-                            "Loading Article: ${article.title}\nContent:\n${article}"
-                        )
-
-                        val layout = LinearLayout(ContextThemeWrapper(context, R.style.Article))
-                        val title =
-                            TextView(ContextThemeWrapper(context, R.style.Article_Text_Title))
-                        val description =
-                            TextView(ContextThemeWrapper(context, R.style.Article_Text_Description))
-
-                        layout.orientation = LinearLayout.VERTICAL
-
-                        val layoutParams = LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT
-                        )
-                        title.layoutParams = layoutParams
-                        description.layoutParams = layoutParams
-
-                        layoutParams.setMargins(0, 0, 0, 32)
-                        layout.layoutParams = layoutParams
-
-                        layout.addView(title)
-                        layout.addView(description)
-
-                        title.text = article.title
-                        description.text = article.description
-
-                        layout.setOnClickListener {
-                            if (checkDisplaySize()) {
-                                findViewById<ConstraintLayout>(R.id.OpenedArticles).removeAllViews()
-                                findViewById<ConstraintLayout>(R.id.OpenedArticles).addView(
-                                    LayoutInflater.from(context).inflate(
-                                        when (article.length) {
-                                            articleLengthShort -> R.layout.activity_article_short
-                                            articleLengthMiddle -> R.layout.activity_article_middle
-                                            articleLengthLong -> R.layout.activity_article_long
-                                            else -> {
-                                                return@setOnClickListener
-                                            }
-                                        }, null
-                                    ),
-                                    ConstraintLayout.LayoutParams(
-                                        ConstraintLayout.LayoutParams.MATCH_PARENT,
-                                        ConstraintLayout.LayoutParams.MATCH_PARENT
-                                    )
-                                )
-                            } else {
-                                when (article.length) {
-                                    articleLengthShort -> {
-                                        setContentView(R.layout.activity_article_short)
-                                    }
-
-                                    articleLengthMiddle -> {
-                                        setContentView(R.layout.activity_article_middle)
-                                    }
-
-                                    articleLengthLong -> {
-                                        setContentView(R.layout.activity_article_long)
-                                    }
-
-                                    else -> {
-                                        return@setOnClickListener
-                                    }
-                                }
-                            }
-
-                            findViewById<TextView>(R.id.textViewArticleTitle).text =
-                                article.title
-                            findViewById<TextView>(R.id.textViewArticleHint).text =
-                                article.hint ?: ""
-                            findViewById<Button>(R.id.buttonBack).setOnClickListener { this@MainActivity.onBackPressed() }
-
-                            when (article.length) {
-                                articleLengthShort -> {
-                                    findViewById<TextView>(R.id.textViewArticleDescription).text =
-                                        article.description
-                                    return@setOnClickListener
-                                }
-
-                                articleLengthMiddle -> {
-                                    findViewById<LinearLayout>(R.id.LinearLayoutArticle).removeAllViews()
-                                    MainScope().launch {
-                                        run {
-                                            val chapters = localDatabase.chapterDao()
-                                                .getChaptersFromArticle(article.articleID)
-                                                .first()
-                                            for (chapter in chapters) {
-                                                findViewById<LinearLayout>(R.id.LinearLayoutArticle).addView(
-                                                    getChapterViews(chapter, context)
-                                                )
-                                            }
-                                        }
-                                    }
-                                    return@setOnClickListener
-                                }
-
-                                articleLengthLong -> {
-                                    return@setOnClickListener
-                                }
-                            }
-                        }
-
-                        articleHolder.addView(layout)
-                    }
-                } else Log.e("loadArticles", "Articles can't be found found")
-            } else Log.e("loadArticles", "Articles can't be found")
+    private fun loadArticles(searchContent: String, page: String)
+    {
+        findViewById<LinearLayout>(R.id.LinearLayoutArticleHolder).removeAllViews()
+        val myFiles = FileLoader(this, "articles", "aifa")
+        val myArticles = mutableListOf<ArticleInterpreter>()
+        for (file in myFiles.getFileContentsFromSubfolder())
+        {
+            myArticles += ArticleInterpreter(this, file)
         }
 
-    }
+        for (myArticle in myArticles)
+        {
+            if (myArticle.getFileContent().contains(searchContent)) //(myArticle.getArticleInfo()[0].contains(searchContent))
+            {
+                if(page.equals("favourite") && myArticle.isFavourite()) {
+                    val card = LinearLayout(this)
+                    val title = TextView(this)
+                    val description = TextView(this)
 
-    private fun loadArticles(articles: Flow<List<Article>>?, searchText: String, context: Context) {
-        loadArticles(articles, context)
-    }
+                    title.setText(myArticle.getArticleInfo()[0])
+                    description.setText(myArticle.getArticleInfo()[2])
 
-    private fun getChapterViews(chapter: Chapter, context: Context): LinearLayout {
-        var textView: TextView
-        val finalViews = LinearLayout(context)
-        val card = LinearLayout(context)
-        val table = TableLayout(context)
-        val tableRow = TableRow(context)
-        var cardActive = false
-        finalViews.layoutParams = ConstraintLayout.LayoutParams(
-            ConstraintLayout.LayoutParams.MATCH_PARENT,
-            ConstraintLayout.LayoutParams.WRAP_CONTENT
-        )
-        MainScope().launch {
-            run {
-                val chapterContents = localDatabase.chapterContentDao().getChapterContent(chapter.chapterID).first()
-                for (chapterContent in chapterContents)
+                    card.orientation = LinearLayout.VERTICAL
+                    card.setOnClickListener { openArticle(myArticle) }
+
+                    card.addView(title)
+                    card.addView(description)
+
+                    findViewById<LinearLayout>(R.id.LinearLayoutArticleHolder).addView(card)
+                } else if (page.equals("recommended") && myArticle.isRecommended())
                 {
-                    Log.d("Function getChapterView", "ChapterContent: $chapterContent")
-                    for (contentType in availableContentTypes)
-                    if(contentType.contentTypeID == chapterContent.idContentType)
-                    {
-                        when(contentType.type) {
-                            "text" -> {
-                                textView = TextView(context)
-                                textView.text = chapterContent.content
-                                if (cardActive) card.addView(textView)
-                                else finalViews.addView(textView)
-                                Log.d("Function getChapterView", "CALLED 1")
-                            }
+                    val card = LinearLayout(this)
+                    val title = TextView(this)
+                    val description = TextView(this)
 
-                            "header1" -> {
-                                textView = TextView(context)
-                                textView.text = chapterContent.content
-                                if (cardActive) card.addView(textView)
-                                else finalViews.addView(textView)
-                                Log.d("Function getChapterView", "CALLED 2")
-                            }
+                    title.setText(myArticle.getArticleInfo()[0])
+                    description.setText(myArticle.getArticleInfo()[2])
 
-                            "header2" -> {
-                                textView = TextView(context)
-                                textView.text = chapterContent.content
-                                if (cardActive) card.addView(textView)
-                                else finalViews.addView(textView)
-                                Log.d("Function getChapterView", "CALLED 3")
-                            }
+                    card.orientation = LinearLayout.VERTICAL
+                    card.setOnClickListener { openArticle(myArticle) }
 
-                            "header3" -> {
-                                textView = TextView(context)
-                                textView.text = chapterContent.content
-                                if (cardActive) card.addView(textView)
-                                else finalViews.addView(textView)
-                                Log.d("Function getChapterView", "CALLED 4")
-                            }
+                    card.addView(title)
+                    card.addView(description)
 
-                            "description" -> {
-                                textView = TextView(context)
-                                textView.text = chapterContent.content
-                                if (cardActive) card.addView(textView)
-                                else finalViews.addView(textView)
-                            }
-
-                            "one-line-info" -> {
-                                textView = TextView(context)
-                                textView.text = chapterContent.content
-                                tableRow.addView(textView)
-                            }
-
-                            "one-line-info-element" -> {
-                                textView = TextView(context)
-                                textView.text = chapterContent.content
-                                tableRow.addView(textView)
-                                table.addView(tableRow)
-                                tableRow.removeAllViews()
-                            }
-
-                            "one-line-info-end" -> {
-                                if (cardActive) card.addView(table)
-                                else finalViews.addView(table)
-                                table.removeAllViews()
-                            }
-
-                            "unsorted-list-element" -> {
-                                textView = TextView(context)
-                                textView.text = chapterContent.content
-                                if (cardActive) card.addView(textView)
-                                else finalViews.addView(textView)
-                                Log.d("Function getChapterView", "CALLED 5")
-                            }
-
-                            "sorted-list-element" -> {
-                                textView = TextView(context)
-                                textView.text = chapterContent.content
-                                if (cardActive) card.addView(textView)
-                                else finalViews.addView(textView)
-                            }
-
-                            "image" -> {
-                                textView = TextView(context)
-                                textView.text = chapterContent.content
-                                if (cardActive) card.addView(textView)
-                                else finalViews.addView(textView)
-                            }
-
-                            "hint" -> {
-                                textView = TextView(context)
-                                textView.text = chapterContent.content
-                                if (cardActive) card.addView(textView)
-                                else finalViews.addView(textView)
-                            }
-
-                            "chapter-hint" -> {
-                                textView = TextView(context)
-                                textView.text = chapterContent.content
-                                if (cardActive) card.addView(textView)
-                                else finalViews.addView(textView)
-                            }
-
-                            "card-start" -> {
-                                cardActive = true
-                            }
-
-                            "card-end" -> {
-                                if (table.childCount != 0) {
-                                    card.addView(table)
-                                    table.removeAllViews()
-                                }
-                                finalViews.addView(card)
-                                card.removeAllViews()
-                                cardActive = false
-                            }
-                        }
-
-                    }
-                }
-                if(table.childCount != 0)
+                    findViewById<LinearLayout>(R.id.LinearLayoutArticleHolder).addView(card)
+                } else if (page.equals(""))
                 {
-                    finalViews.addView(table)
+                    val card = LinearLayout(this)
+                    val title = TextView(this)
+                    val description = TextView(this)
+
+                    title.setText(myArticle.getArticleInfo()[0])
+                    description.setText(myArticle.getArticleInfo()[2])
+
+                    card.orientation = LinearLayout.VERTICAL
+                    card.setOnClickListener { openArticle(myArticle) }
+
+                    card.addView(title)
+                    card.addView(description)
+
+                    findViewById<LinearLayout>(R.id.LinearLayoutArticleHolder).addView(card)
                 }
             }
         }
-        return finalViews
     }
 
+    private fun loadArticles(page: String) {
+        loadArticles("", page)
+    }
+
+    private fun openArticle(article: ArticleInterpreter)
+    {
+        Log.d("MainActivity", "Opening Article")
+        if(article.getArticleInfo()[1] == "short")
+        {
+            if(checkDisplaySize())
+            {
+                findViewById<ConstraintLayout>(R.id.OpenedArticles).removeAllViews()
+                findViewById<ConstraintLayout>(R.id.OpenedArticles).addView(
+                    LayoutInflater.from(this).inflate(R.layout.activity_article_short, null),
+                    ConstraintLayout.LayoutParams(
+                        ConstraintLayout.LayoutParams.MATCH_PARENT,
+                        ConstraintLayout.LayoutParams.MATCH_PARENT
+                    )
+                )
+            } else
+            {
+                setContentView(R.layout.activity_article_short)
+            }
+        } else if (article.getArticleInfo()[1] == "middle")
+        {
+            if(checkDisplaySize())
+            {
+                findViewById<ConstraintLayout>(R.id.OpenedArticles).removeAllViews()
+                findViewById<ConstraintLayout>(R.id.OpenedArticles).addView(
+                    LayoutInflater.from(this).inflate(R.layout.activity_article_middle, null),
+                    ConstraintLayout.LayoutParams(
+                        ConstraintLayout.LayoutParams.MATCH_PARENT,
+                        ConstraintLayout.LayoutParams.MATCH_PARENT
+                    )
+                )
+            } else
+            {
+                setContentView(R.layout.activity_article_middle)
+            }
+
+        } else if (article.getArticleInfo()[1] == "long")
+        {
+            if(checkDisplaySize())
+            {
+                findViewById<ConstraintLayout>(R.id.OpenedArticles).removeAllViews()
+                findViewById<ConstraintLayout>(R.id.OpenedArticles).addView(
+                    LayoutInflater.from(this).inflate(R.layout.activity_article_long, null),
+                    ConstraintLayout.LayoutParams(
+                        ConstraintLayout.LayoutParams.MATCH_PARENT,
+                        ConstraintLayout.LayoutParams.MATCH_PARENT
+                    )
+                )
+            } else
+            {
+                setContentView(R.layout.activity_article_long)
+            }
+        } else return
+
+        findViewById<TextView>(R.id.textViewArticleTitle).text = article.getArticleInfo()[0]
+        findViewById<TextView>(R.id.textViewArticleHint).text = article.getArticleInfo()[article.getArticleInfo().size-1]
+        findViewById<Button>(R.id.buttonBack).setOnClickListener { this.onBackPressed() }
+
+        if(article.getArticleInfo()[1] == "short")
+        {
+
+        } else if (article.getArticleInfo()[1] == "middle")
+        {
+            for (x in article.getContent())
+            {
+                findViewById<LinearLayout>(R.id.LinearLayoutArticle).addView(x)
+            }
+        } else if (article.getArticleInfo()[1] == "long")
+        {
+
+        }
+    }
 
 }
+
+
 
 
 
