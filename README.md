@@ -6,7 +6,7 @@ Hier findest du Informationen zu kommenden Funktionen und Veröffentlichungen: h
 Falls du mir gerne Feedback senden möchtest, kannst du mir gerne eine E-Mail an theelmaron@gmail.com schreiben.
 
 ## INSTALLATION (Android)
-Um die App installieren zu können, musst du zuvor in den Einstellungen das Installieren von Apps aus unbekannter Quelle zulassen. Dafür musst du die Einstellungen deiner App öffnen und bei "Apps aus unbekannter Quelle installieren" aktivieren. Das folgende Video zeigt, wie du es auf deinem Smartphone aktivierst:  
+Um die App installieren zu können, musst du zuvor in den Einstellungen das Installieren von Apps aus unbekannter Quelle zulassen. Dafür musst du die Einstellungen deiner App öffnen und bei "Apps aus unbekannter Quelle installieren" aktivieren. Das folgende Video zeigt, wie du es auf deinem Smartphone aktivierst. Du solltest dafür auch den Ton des Videos einschalten. Ein kleiner Tipp noch: Sollte es dir etwas zu schnell gehen, kannst du das Video pausieren.
 
 https://github.com/Elmaron/My-Little-Expla/assets/66702022/aac55f3c-b52d-426d-946e-107f4b5ce55b
 
