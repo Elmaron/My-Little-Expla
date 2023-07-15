@@ -55,7 +55,6 @@ ALPHA
        - Favouriten
        - eigene Artikel hinzufügen
     - Markierung der Artikel in unterschiedlichen Farben je nach Artikellänge (Kurzinfo/Erklärung, Normal, Ausführlich)
-    - Wechsel der Artikel auf ein Datenbanksystem
     - Teilen von Artikeln/Artikelinhalten
     - Import/Export von (eigenen) Artikeln
     - Icons für die Artikelübersicht
@@ -107,8 +106,6 @@ ALPHA
       - STRG + F (Chrome, Windows)
 
     inhaltliche Fehler (Artikel)
-    - Dateien freigeben
-      - Beschreibung: "Plattformaen" -> Plattformen
     - Tastenkombinationen
       - Desktop/Home-Screen -> Auf Windows ist die Tastenkombination nicht STRG + D, sondern WIN + D
 
