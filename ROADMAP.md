@@ -56,7 +56,7 @@ ALPHA
        - eigene Artikel hinzufügen
     - Einstellungen
        - Artikel können dafür sorgen, dass der Bildschirm nicht ausgeschaltet wird
-    - Manche Artikel können mithilfe eines Overlays direkte Hilfe beim Anwenden bestimmter Funktionen bekommen
+    - Manche Artikel können mithilfe eines Overlays direkte Hilfe beim Anwenden bestimmter Funktionen geben
     - Markierung der Artikel in unterschiedlichen Farben je nach Artikellänge (Kurzinfo/Erklärung, Normal, Ausführlich)
     - Teilen von Artikeln/Artikelinhalten
     - Import/Export von (eigenen) Artikeln
