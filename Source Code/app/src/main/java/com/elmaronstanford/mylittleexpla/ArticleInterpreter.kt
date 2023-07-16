@@ -31,16 +31,14 @@ class ArticleInterpreter(context: Context, pFile: String) {
 
 
     init {
-        val fileSplit = pFile.split("(?<=\\{)".toRegex())
+        val fileSplit = pFile.split("(?<=\\}|\\{)".toRegex())
         for (split in fileSplit) {
-            if (split.contains("}")) {
-                val anotherSplit = split.split("(?=\\})".toRegex())
-                for (aSplit in anotherSplit) {
-                    file += aSplit
-                }
-            } else {
-                file += split
-            }
+
+            /*val anotherSplit = split.split("(?=\\})".toRegex())
+            for (aSplit in anotherSplit) {
+                file += aSplit
+            }*/
+            file += split
         }
         if (file.size > 0)
             loadContent(file, context)
@@ -93,17 +91,17 @@ class ArticleInterpreter(context: Context, pFile: String) {
         for (x in content.indices)
             if (content[x].contains("{")) {
                 if (content[x].contains("title")) {
-                    title = content[x + 1]
+                    title = getValue(content[x + 1], "")
                 } else if (content[x].contains("type")) {
-                    type = content[x + 1]
+                    type = getValue(content[x + 1], "")
                 } else if (content[x].contains("description")) {
-                    description = content[x + 1]
+                    description = getValue(content[x + 1], "")
                 } else if (content[x].contains("article-hint")) {
-                    article_hint = content[x + 1]
+                    article_hint = getValue(content[x + 1], "")
                 } else if (content[x].contains("favourite")) {
-                    favourite = content[x + 1].toInt() > 0
+                    favourite = getValue(content[x + 1], "}").toInt()  > 0
                 } else if (content[x].contains("recommended")) {
-                    recommended = content[x + 1].toInt() > 0
+                    recommended = getValue(content[x + 1], "}").toInt() > 0
                 }
             }
     }
@@ -125,10 +123,10 @@ class ArticleInterpreter(context: Context, pFile: String) {
                             if (info.contains("=")) {
                                 if (info.contains("name")) {
                                     chapterTitle = TextView(context)
-                                    chapterTitle.text = getValue(info, "name")
+                                    chapterTitle.text = getCleanValue(info, "name")
                                 } else if (info.contains("hint")) {
                                     chapterHint = TextView(context)
-                                    chapterHint.text = getValue(info, "hint")
+                                    chapterHint.text = getCleanValue(info, "hint")
                                 }
                             }
                         }
@@ -170,10 +168,14 @@ class ArticleInterpreter(context: Context, pFile: String) {
 
         init {
             Log.d("ArticleInterpreter", "Loading Content")
-            if(pContent.size > 1)
+            if(pContent.size > 1) {
+                //Log.e("ArticleInterpreter", "Size of Content: ${pContent.size}")
                 views = loadChapter(pContext, pContent, pContentType)
-            else
+            }
+            else {
+                //Log.e("ArticleInterpreter", "Size of is smaller than 2")
                 views = mutableListOf(loadOnePart(pContext, pContent, pContentType))
+            }
             Log.d("ArticleInterpreter", "Content added")
         }
 
@@ -181,8 +183,16 @@ class ArticleInterpreter(context: Context, pFile: String) {
             if(contentType.equals("text"))
             {
                 val newTextView = TextView(context)
-                newTextView.setText(content.toString())
+                if(content.size > 0) {
+                    newTextView.text =  cleanText(content[content.size - 1])
+                    //Log.e( "ArticleInterpreter","New TextView Content: ${content[content.size - 1]}")
+                }
+                else
+                    newTextView.text = content.toString()
+                    Log.e("ArticleInterpreter", "Contentsize is 0 or smaller than 0")
                 return newTextView
+            } else {
+                Log.e("ArticleInterpreter", "ContentType does not exist!")
             }
             return View(context)
         }
@@ -191,6 +201,7 @@ class ArticleInterpreter(context: Context, pFile: String) {
             val myViews = mutableListOf<View>()
             for (x in content.indices) {
                 Log.i("Loop", "Opening Loop")
+                //Log.i("Loop", "Value of X: $x, Value of SkipNumber: $skipNumber")
                 if (x > skipNumber) {
                     //Log.d("Loop", "not skipped")
                     Log.d("Loop", "Checking ${content[x]}")
@@ -211,7 +222,7 @@ class ArticleInterpreter(context: Context, pFile: String) {
                             Log.d("Loop", "found {")
                             myViews += loadChapterRepeating(context, content, x)
                         }
-                    } else if (contentType.equals("unsorted-list")||contentType.equals("sorted-list")) {
+                    } else if (contentType.equals("unsorted-list")) {
                         Log.d("Loop", "unsorted loading")
                         //var textContent = content[x]
                         if (content[x].contains("{")) {
@@ -219,17 +230,23 @@ class ArticleInterpreter(context: Context, pFile: String) {
                             myViews += loadChapterRepeating(context, content, x)
                             //textContent = removeFromString(content[x], functions + variants + mutableListOf("  ", "}"))
                         }
-                        if(contentType.equals("unsorted-list")) {
-                            for (view in myViews) {
-                                if (view is TextView) view.text = "- " + view.text
-                            }
+                        for (view in myViews) {
+                            if (view is TextView && !view.text.contains("- ")) { Log.d("LoopRunningUnsortedList", "Checking view: ${view.text}")
+                                view.text = "- " + view.text }
                         }
-                        else {
-                            var t: Int = 1
-                            for (view in myViews) {
-                                if (view is TextView) view.text = "$t " + view.text
-                                t++
-                            }
+                    } else if (contentType.equals("sorted-list"))
+                    {
+                        Log.d("Loop", "sorted loading")
+                        //var textContent = content[x]
+                        if (content[x].contains("{")) {
+                            Log.d("Loop", "found {")
+                            myViews += loadChapterRepeating(context, content, x)
+                            //textContent = removeFromString(content[x], functions + variants + mutableListOf("  ", "}"))
+                        }
+                        var t: Int = 1
+                        for (view in myViews) {
+                            if (view is TextView && !view.text.contains("$t. ")) view.text = "$t. " + view.text
+                            t++
                         }
                     }
                 }
@@ -244,15 +261,20 @@ class ArticleInterpreter(context: Context, pFile: String) {
                 if (content[x].contains(k + i)) {
                     //Log.d("Loop", "Openening New Content: $k $i")
                     var myContent = mutableListOf<String>()
-                    skipNumber = countCommandLength(content, x + 1)
+                    skipNumber = countCommandLength(content, x + 1) + x
                     if (skipNumber > -1) {
-                        for (z in 0 until skipNumber)
-                            myContent += content[x + 1 + z]
-                        for (k in ChapterLoader(context, myContent, k).getViews())
-                            myViews += k
-                    } else if (skipNumber == -1)
-                    {
-
+                        if (skipNumber-x != 0) {
+                            for (z in 0 until skipNumber - x) {
+                                myContent += content[x + 1 + z]
+                            }
+                            for (p in ChapterLoader(context, myContent, k).getViews()) {
+                                myViews += p
+                            }
+                        } else
+                        {
+                            myContent += content[x + 1]
+                            myViews += ChapterLoader(context, myContent, k).getViews()
+                        }
                     }
                 }
             }
@@ -265,7 +287,7 @@ class ArticleInterpreter(context: Context, pFile: String) {
             var endOfCommands = 0
             for(x in start until content.size)
             {
-                Log.d("ArticleInterpreter", "Checking ${content[x]}")
+                //Log.d("ArticleInterpreter", "Checking ${content[x]}")
                 if (content[x].contains("}"))
                 {
                     //Log.i("ArticleInterpreter", "found an }")
@@ -278,7 +300,7 @@ class ArticleInterpreter(context: Context, pFile: String) {
                     //Log.i("ArticleInterpreter", "found an {")
                     startOfCommands++
                 }
-                Log.d("ArticleInterpreter", "{ found $startOfCommands times        } found $endOfCommands times")
+                //Log.d("ArticleInterpreter", "{ found $startOfCommands times        } found $endOfCommands times")
             }
             Log.e("ArticleInterpreter", "Couldn't count length of content")
             Log.e("ArticleInterpreter", "Length of Content: ${content.size}, Value for Start: $start")
@@ -286,18 +308,25 @@ class ArticleInterpreter(context: Context, pFile: String) {
         }
 
         private fun removeFromString(content: String, removale: List<String>): String {
-            content.replace(" ", "")
+            var newContent = content.replace("  ", "")
             for (remove in removale) {
-                content.replace(remove, "")
+                newContent = newContent.replace(remove, "")
             }
-            content.replace("_", " ")
-            return content
+            newContent = newContent.replace("_", " ")
+            return newContent
         }
 
         fun getViews(): List<View> {
             Log.d("ArticleInterpreter", "Return Content")
             Log.d("ArticleInterpreter", "Size of Views: ${views.size}")
             return views
+        }
+
+        private fun cleanText(content: String): String {
+            var newContent = content.replace("  ", "")
+            newContent = newContent.replace("{", "")
+            newContent = newContent.replace("}", "")
+            return newContent
         }
     }
 
@@ -332,12 +361,25 @@ class ArticleInterpreter(context: Context, pFile: String) {
     }
 
     private fun removeFromString(content: String, removale: List<String>): String {
-        content.replace(" ", "")
+        var newContent = content
+        newContent = newContent.replace(" ", "")
         for (remove in removale) {
-            content.replace(remove, "")
+            newContent = newContent.replace(remove, "")
         }
-        content.replace("_", " ")
-        return content
+        newContent = newContent.replace("_", "\u0020")
+        Log.d("ContentRemoveString", "Result: $newContent")
+        return newContent
+    }
+
+    private fun cleanText(content: String, removale: List<String>): String {
+        var newContent = content
+        newContent = newContent.replace("  ", "")
+        for (remove in removale) {
+            newContent = newContent.replace(remove, "")
+        }
+        newContent = newContent.replace("_", " ")
+        Log.d("ContentRemoveString", "Result: $newContent")
+        return newContent
     }
 
     public fun getArticleInfo() : List<String>
@@ -357,7 +399,20 @@ class ArticleInterpreter(context: Context, pFile: String) {
 
     private fun getValue(content: String, removale: String): String
     {
-        return content.split(removale + "=")[1]
+        val newContent = removeFromString(content, mutableListOf("{", "}"))
+        if(newContent.split(removale + "=").size > 0)
+            return newContent.split(removale + "=")[newContent.split(removale + "=").size-1]
+        else
+            return newContent.split(removale + "=")[0]
+    }
+
+    private fun getCleanValue(content: String, removale: String): String
+    {
+        val newContent = cleanText(content, mutableListOf("{", "}"))
+        if(newContent.split(removale + "=").size > 0)
+            return newContent.split(removale + "=")[newContent.split(removale + "=").size-1]
+        else
+            return newContent.split(removale + "=")[0]
     }
 
     public fun getFileContent(): String

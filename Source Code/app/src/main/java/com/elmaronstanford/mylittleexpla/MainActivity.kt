@@ -69,11 +69,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         val myFiles = FileLoader(this, "articles", "aifa")
 
+        /*
         for (contents in myFiles.getFileContentsFromSubfolder())
         {
-            for (test in ArticleInterpreter(this, contents).getArticleInfo())
+            for (test in ArticleInterpreter(this, contents).getTestFile())
             Log.d("ArticleInterpreter", test)
-        }
+        }*/
 
         // Log the inserted data from the database
     }
@@ -100,7 +101,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         setContentView(R.layout.activity_main)
 
         findViewById<BottomNavigationView>(R.id.bottom_menu).setOnNavigationItemSelectedListener(this)
-
+        findViewById<BottomNavigationView>(R.id.bottom_menu).selectedItemId = R.id.menu_recommended
     }
 
     private fun loadTablet()
@@ -110,9 +111,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         if(findViewById<BottomNavigationView>(R.id.bottom_menu) != null)
         {
             findViewById<BottomNavigationView>(R.id.bottom_menu).setOnNavigationItemSelectedListener(this)
+            findViewById<BottomNavigationView>(R.id.bottom_menu).selectedItemId = R.id.menu_recommended
         } else if (findViewById<NavigationView>(R.id.side_menu) != null)
         {
             findViewById<NavigationView>(R.id.side_menu).setNavigationItemSelectedListener(this)
+            findViewById<NavigationView>(R.id.side_menu).setCheckedItem(R.id.menu_recommended)
         }
     }
 

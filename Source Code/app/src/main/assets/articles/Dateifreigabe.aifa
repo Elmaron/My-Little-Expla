@@ -1,4 +1,4 @@
-article-interpreter-for-apps{version=1}
+article-interpreter-for-apps{version= 1}
 article
 {
     header {
@@ -66,7 +66,7 @@ article
         }
         chapter (name=Dateien_per_Cloud_freigeben) {
             text {
-                Clouds haben viele Funktionen. Während die Wolken (deutsche Übersetzung von &quot;Cloud&quot;) allerdings vor allem dafür geeignet sind, Dateien wie Fotos, Videos
+                Clouds haben viele Funktionen. Während die Wolken (deutsche Übersetzung von Cloud&quot) allerdings vor allem dafür geeignet sind, Dateien wie Fotos, Videos
                 und andere Dokumente langfristig zu speichern, sodass man aber Zugriff von jedem Gerät aus hat, ist es auch möglich Dateien an andere freizugeben.\n
                 Clouds eignen sich in diesem Fall für jede der zu Beginn gestellten Fragen, solange Sender und Empfänger über Internet verfügen.\n
                 Folgende Cloud-Speicher werden in dieser App behandelt:
