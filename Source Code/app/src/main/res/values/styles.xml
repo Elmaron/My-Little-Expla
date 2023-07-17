@@ -71,6 +71,15 @@
         <item name="android:textStyle">italic</item>
     </style>
 
+    <style name="Article.Content.Card">
+
+    </style>
+
+    <style name="Article.Content.Description" parent="Article.Content.Text">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
     <style name="ArticleCard">
         <item name="android:background">@drawable/article_background</item>
         <item name="android:padding">10dp</item>

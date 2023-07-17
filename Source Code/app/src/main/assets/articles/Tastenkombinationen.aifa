@@ -1,0 +1,40 @@
+article-interpreter-for-apps{version= 1}
+article
+{
+    header {
+        title{Shortcuts}
+        type{long}
+        description{Shortcuts für alles Mögliche}
+        favourite{0}
+        recommended{1}
+        icon{}
+        article-hint{Die Tastenkombinationen gelten nur für das deutsche Tastaturlayout. In anderen Sprachen können die Kombinationen abweichen.}
+    }
+    body {
+        chapter (name=Grundlagen) {
+            card {
+                header3{Rückgängig}
+                description{In fast jedem Programm und auch auf dem Desktop von Windows kann mit dieser Tastenkombination jeder Fehler rückgängig gemacht werden.}
+                lineInfo{
+                    text {Tastenkombinationen: } text{STRG + Z}
+                    text {Plattformen:} text{Windows, Lniux, Android, IOS}
+                }
+            }
+        }
+        chapter (name=Word) {
+            text {
+                Mit Direktverbindung sind sowohl klassische Methoden (wie bspw. per Kabel oder USB-Stick), als auch kabellose Verbindungen wie bspw. über Bluetooth gemeint. Direktverbindungen eignen sich für eine schnelle und sichere Freigabe von einzelnen Dateien an einen einzelnen Empfänger am besten. Die Dateien bekommen in diesem Fall (bis auf Quick Share) auch keine zeitliche Begrenzung.
+                Folgende Direktverbindungen werden in eigenen Artikeln erklärt:
+            }
+            unsorted-list {
+                text{Kabelgebundene Direktverbindungen}
+                text{Kabellose Übertragungs-möglichkeiten:}
+                unsorted-list{
+                    text{Bluetooth}
+                    text{Nearby Share}
+                    text{Quick Share (Samsung)}
+                }
+            }
+        }
+    }
+}

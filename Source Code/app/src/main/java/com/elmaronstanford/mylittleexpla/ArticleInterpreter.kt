@@ -6,10 +6,13 @@ import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.text.Layout
 import android.util.Log
+import android.view.ContextThemeWrapper
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Space
+import android.widget.TableLayout
+import android.widget.TableRow
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -174,7 +177,7 @@ class ArticleInterpreter(context: Context, pFile: String) {
         private var views: List<View>
 
         private var variants = mutableListOf("{", " {")
-        private var functions = mutableListOf("text", "unsorted-list", "sorted-list")
+        private var functions = mutableListOf("text", "unsorted-list", "sorted-list", "header1", "header2", "header3", "card", "description", "lineInfo")
 
         init {
             Log.d("ArticleInterpreter", "Loading Content")
@@ -204,7 +207,63 @@ class ArticleInterpreter(context: Context, pFile: String) {
                 if(newTextView.text == "") return View(context)
                 newTextView.setTextAppearance(context, R.style.Article_Content_Text)
                 return newTextView
-            } else {
+            } else if(contentType.equals("header1"))
+            {
+                val newTextView = TextView(context)
+                if(content.isNotEmpty()) {
+                    newTextView.text =  cleanText(content[content.size - 1])
+                    //Log.e( "ArticleInterpreter","New TextView Content: ${content[content.size - 1]}")
+                }
+                else {
+                    newTextView.text = cleanText(content.toString())
+                    Log.e("ArticleInterpreter", "ContentSize is 0 or smaller than 0")
+                }
+                if(newTextView.text == "") return View(context)
+                newTextView.setTextAppearance(context, R.style.Article_Content_Header1)
+                return newTextView
+            } else if(contentType.equals("header2"))
+            {
+                val newTextView = TextView(context)
+                if(content.isNotEmpty()) {
+                    newTextView.text =  cleanText(content[content.size - 1])
+                    //Log.e( "ArticleInterpreter","New TextView Content: ${content[content.size - 1]}")
+                }
+                else {
+                    newTextView.text = cleanText(content.toString())
+                    Log.e("ArticleInterpreter", "ContentSize is 0 or smaller than 0")
+                }
+                if(newTextView.text == "") return View(context)
+                newTextView.setTextAppearance(context, R.style.Article_Content_Header2)
+                return newTextView
+            } else  if(contentType.equals("header3"))
+            {
+                val newTextView = TextView(context)
+                if(content.isNotEmpty()) {
+                    newTextView.text =  cleanText(content[content.size - 1])
+                    //Log.e( "ArticleInterpreter","New TextView Content: ${content[content.size - 1]}")
+                }
+                else {
+                    newTextView.text = cleanText(content.toString())
+                    Log.e("ArticleInterpreter", "ContentSize is 0 or smaller than 0")
+                }
+                if(newTextView.text == "") return View(context)
+                newTextView.setTextAppearance(context, R.style.Article_Content_Header3)
+                return newTextView
+            } else if(contentType.equals("description"))
+            {
+                val newTextView = TextView(context)
+                if(content.isNotEmpty()) {
+                    newTextView.text =  cleanText(content[content.size - 1])
+                    //Log.e( "ArticleInterpreter","New TextView Content: ${content[content.size - 1]}")
+                }
+                else {
+                    newTextView.text = cleanText(content.toString())
+                    Log.e("ArticleInterpreter", "ContentSize is 0 or smaller than 0")
+                }
+                if(newTextView.text == "") return View(context)
+                newTextView.setTextAppearance(context, R.style.Article_Content_Description)
+                return newTextView
+            } else{
                 Log.e("ArticleInterpreter", "ContentType does not exist!")
             }
             return View(context)
@@ -229,6 +288,42 @@ class ArticleInterpreter(context: Context, pFile: String) {
                         var textContent = content[x]
                         val newTextView = TextView(context)
                         newTextView.setTextAppearance(context, R.style.Article_Content_Text)
+                        if (content[x].contains("{")||content.contains("}")) textContent = removeFromString(content[x], functions + variants + mutableListOf("  ", "}"))
+                        newTextView.setText(textContent)
+                        myViews += newTextView
+                        if (content[x].contains("{")) {
+                            Log.d("Loop", "found {")
+                            myViews += loadChapterRepeating(context, content, x)
+                        }
+                    } else if (contentType.equals("header1")) {
+                        Log.d("Loop", "text loading")
+                        var textContent = content[x]
+                        val newTextView = TextView(context)
+                        newTextView.setTextAppearance(context, R.style.Article_Content_Header1)
+                        if (content[x].contains("{")||content.contains("}")) textContent = removeFromString(content[x], functions + variants + mutableListOf("  ", "}"))
+                        newTextView.setText(textContent)
+                        myViews += newTextView
+                        if (content[x].contains("{")) {
+                            Log.d("Loop", "found {")
+                            myViews += loadChapterRepeating(context, content, x)
+                        }
+                    } else if (contentType.equals("header2")) {
+                        Log.d("Loop", "text loading")
+                        var textContent = content[x]
+                        val newTextView = TextView(context)
+                        newTextView.setTextAppearance(context, R.style.Article_Content_Header2)
+                        if (content[x].contains("{")||content.contains("}")) textContent = removeFromString(content[x], functions + variants + mutableListOf("  ", "}"))
+                        newTextView.setText(textContent)
+                        myViews += newTextView
+                        if (content[x].contains("{")) {
+                            Log.d("Loop", "found {")
+                            myViews += loadChapterRepeating(context, content, x)
+                        }
+                    } else if (contentType.equals("header3")) {
+                        Log.d("Loop", "text loading")
+                        var textContent = content[x]
+                        val newTextView = TextView(context)
+                        newTextView.setTextAppearance(context, R.style.Article_Content_Header3)
                         if (content[x].contains("{")||content.contains("}")) textContent = removeFromString(content[x], functions + variants + mutableListOf("  ", "}"))
                         newTextView.setText(textContent)
                         myViews += newTextView
@@ -320,6 +415,54 @@ class ArticleInterpreter(context: Context, pFile: String) {
                                         tView.text = "$t. " + tView.text
                                         t++
                                     }
+                    } else if (contentType == "card") {
+                        Log.d("Loop", "card loading")
+                        val cardLayout = LinearLayout(ContextThemeWrapper(context, R.style.Article_Content_Card))
+                        cardLayout.orientation = LinearLayout.VERTICAL
+                        cardLayout.layoutParams = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.MATCH_PARENT
+                        )
+
+                        for (view in loadChapterRepeating(context, content, x))
+                        {
+                            cardLayout.addView(view)
+                        }
+
+                        myViews += cardLayout
+                    } else if (contentType == "description") {
+                        Log.d("Loop", "text loading")
+                        var textContent = content[x]
+                        val newTextView = TextView(context)
+                        newTextView.setTextAppearance(context, R.style.Article_Content_Text)
+                        if (content[x].contains("{")||content.contains("}")) textContent = removeFromString(content[x], functions + variants + mutableListOf("  ", "}"))
+                        newTextView.setText(textContent)
+                        myViews += newTextView
+                        if (content[x].contains("{")) {
+                            Log.d("Loop", "found {")
+                            myViews += loadChapterRepeating(context, content, x)
+                        }
+                    } else if (contentType == "lineinfo") {
+                        Log.d("Loop", "found {")
+                        val myTable = TableLayout(context)
+                        var myTableRow = TableRow(context)
+                        var zahler = 0
+                        for(view in loadChapterRepeating(context, content, x))
+                        {
+                            if(zahler == 0)
+                            {
+                                myTableRow = TableRow(context)
+                                myTableRow.addView(view)
+                                zahler++
+                            } else {
+                                myTableRow.addView(view)
+                                zahler = 0
+                                myTable.addView(myTableRow)
+                            }
+                        }
+                        myViews += myTable
+                        //textContent = removeFromString(content[x], functions + variants + mutableListOf("  ", "}"))
+
                     }
                 }
                 //newTextView.paintFlags = newTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
@@ -331,23 +474,22 @@ class ArticleInterpreter(context: Context, pFile: String) {
             Log.d("Loop", "Reapeating Start")
             val myViews = mutableListOf<View>()
             var foundValue: Boolean = false
-            for (i in variants) for (k in functions){
+            for (i in variants) for (k in functions) {
                 if (content[x].contains(k + i) && !foundValue) {
                     //Log.d("Loop", "Openening New Content: $k $i")
                     var myContent = mutableListOf<String>()
                     skipNumber = countCommandLength(content, x + 1) + x
                     if (skipNumber > -1) {
-                        if (skipNumber-x != 0) {
+                        if (skipNumber - x != 0) {
                             for (z in 0 until skipNumber - x) {
                                 myContent += content[x + 1 + z]
                             }
-                            Log.i("CurentContent","CurrentContent for X ($x): $myContent")
+                            Log.i("CurentContent", "CurrentContent for X ($x): $myContent")
                             for (p in ChapterLoader(context, myContent, k).getViews()) {
                                 myViews += p
                             }
                             foundValue = true
-                        } else
-                        {
+                        } else {
                             myContent += content[x + 1]
                             myViews += ChapterLoader(context, myContent, k).getViews()
                             foundValue = true

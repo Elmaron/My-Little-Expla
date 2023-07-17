@@ -9,20 +9,25 @@ import android.text.Layout
 import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.PopupMenu
 import android.widget.ProgressBar
+import android.widget.ScrollView
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -211,7 +216,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     val description = TextView(ContextThemeWrapper(this, R.style.ArticleCard_Description))
 
                     title.setText(myArticle.getArticleInfo()[0])
-                    description.setText(myArticle.getArticleInfo()[2])
+                    if(myArticle.getArticleInfo()[1] == "short")
+                    {
+                        description.text = myArticle.getArticleInfo()[2].substring(0, 20)
+                    }
+
+                    else
+                        description.text = myArticle.getArticleInfo()[2]
 
                     title.setTextColor(Color.BLACK)
                     description.setTextColor(Color.BLACK)
@@ -314,7 +325,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         if(article.getArticleInfo()[1] == "short")
         {
-
+            findViewById<TextView>(R.id.textViewArticleDescription).text = article.getArticleInfo()[2]
         } else if (article.getArticleInfo()[1] == "middle")
         {
             val articleContent = article.getContent()
@@ -335,7 +346,43 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
         } else if (article.getArticleInfo()[1] == "long")
         {
+            val articleContent = article.getContent()
+            val myMenuLayout = findViewById<TabLayout>(R.id.tabLayoutArticleTabs)
+            val myView = findViewById<LinearLayout>(R.id.LinearLayoutArticle)
+            for (x in 0 until articleContent.size)
+            {
+                var title = ""
+                for (myTitle in articleContent[x].children)
+                {
+                    if(myTitle is TextView) {
+                        title = myTitle.text.toString()
+                        break
+                    }
+                }
+                myMenuLayout.addTab(myMenuLayout.newTab().setText(title))
+            }
 
+            myMenuLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab) {
+                    // Perform action when the tab is selected
+                    for(x in 0 until articleContent.size)
+                    {
+                        if(tab.position == x)
+                        {
+                            myView.removeAllViews()
+                            myView.addView(articleContent[x])
+                        }
+                    }
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab) {
+                    // Perform action when the tab is unselected (optional)
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab) {
+                    // Perform action when the tab is reselected (optional)
+                }
+            })
         }
     }
 
