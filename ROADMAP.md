@@ -49,11 +49,11 @@ ALPHA
     
     Geplante Funktionen
     - Neue Inhaltliche Aufteilung
-       - empfohlene Artikel -> Home-Seite mit empfohlenen, neuen Artikeln und Einstellungen
+       - empfohlene Artikel
        - Kategorien
        - alle Artikel
        - Favouriten
-       - eigene Artikel hinzufügen
+       - eigene Artikel hinzufügen -> Home-Seite mit neuen Artikeln und Einstellungen, wo auch eigene Artikel hinzugefügt werden können
     - Einstellungen
        - Artikel können dafür sorgen, dass der Bildschirm nicht ausgeschaltet wird
     - Manche Artikel können mithilfe eines Overlays direkte Hilfe beim Anwenden bestimmter Funktionen geben
