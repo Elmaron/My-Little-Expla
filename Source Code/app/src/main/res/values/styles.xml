@@ -10,7 +10,6 @@
     <style name="Article">
         <item name="android:background">@drawable/article_background</item>
         <item name="android:padding">10dp</item>
-        <item name="android:layout_marginBottom">16dp</item>
     </style>
 
     <style name="Article.Text" parent="Widget.AppCompat.TextView">
@@ -26,6 +25,71 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">italic</item>
     </style>
+
+    <style name="Article.Title" parent="Article.Content.Text">
+        <item name="android:textSize">40sp</item>
+        <item name="android:textColor">@color/TextcolorPrimary</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="Article.Hint" parent="Article.Content.Text">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/TextcolorPrimary</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="Article.Description" parent="Article.Content.Text">
+        <item name="android:textColor">@color/TextcolorPrimary</item>
+    </style>
+
+    <style name="Article.Content" parent="Article">
+
+    </style>
+
+    <style name="Article.Content.Text" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="Article.Content.Header1" parent="Article.Content.Text">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Article.Content.Header2" parent="Article.Content.Text">
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="Article.Content.Header3" parent="Article.Content.Text">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Article.Content.Hint" parent="Article.Content.Text">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="ArticleCard">
+        <item name="android:background">@drawable/article_background</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_margin">16dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+    </style>
+
+    <style name="ArticleCard.Title" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="ArticleCard.Description" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+
 
     <style name="ArticleStyle">
         <item name="android:background">@drawable/article_background</item>

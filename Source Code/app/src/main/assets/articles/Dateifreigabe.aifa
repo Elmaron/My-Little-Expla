@@ -15,7 +15,7 @@ article
             text {
                 Es gibt einige grundlegende Dinge, die man sich fragen sollte, bevor man eine Datei versendet. Dazu gehören folgende Fragen:
                 unsorted-list {
-                    text{Wie muss die Datei ankommen?}
+                    text{Wie schnell muss die Datei ankommen?}
                     text{Wie viele Empfänger hat die Datei?}
                     text{Wie groß ist die Datei?}
                     text{Wie viele Dateien sollen versandt werden?}
@@ -31,14 +31,12 @@ article
         }
         chapter (name=Freigabe_per_Direktverbindung; hint=Sollten_mir_in_Zukunft_noch_mehr_und_bessere_Möglichkeiten_für_eine_Direktverbindung_bekannt_sein,_werde_ich_diese_hier_ergänzen.) {
             text {
-                Mit Direktverbindung sind sowohl klassische Methoden (wie bspw. per Kabel oder USB-Stick), als auch kabellose Verbindungen wie bspw. über Bluetooth gemeint.\n
-                Direktverbindungen eignen sich für eine schnelle und sichere Freigabe von einzelnen Dateien an einen einzelnen Empfänger am besten. Die Dateien bekommen in
-                diesem Fall (bis auf Quick Share) auch keine zeitliche Begrenzung.\n
+                Mit Direktverbindung sind sowohl klassische Methoden (wie bspw. per Kabel oder USB-Stick), als auch kabellose Verbindungen wie bspw. über Bluetooth gemeint. Direktverbindungen eignen sich für eine schnelle und sichere Freigabe von einzelnen Dateien an einen einzelnen Empfänger am besten. Die Dateien bekommen in diesem Fall (bis auf Quick Share) auch keine zeitliche Begrenzung.
                 Folgende Direktverbindungen werden in eigenen Artikeln erklärt:
             }
             unsorted-list {
-                element{Kabelgebundene Direktverbindungen}
-                element{Kabellose Übertragungsmöglichkeiten:}
+                text{Kabelgebundene Direktverbindungen}
+                text{Kabellose Übertragungs-möglichkeiten:}
                 unsorted-list{
                     text{Bluetooth}
                     text{Nearby Share}
@@ -46,13 +44,10 @@ article
                 }
             }
         }
-        chapter (name=Dateifreigabe_per_App; hint=Da_sich_die_Apps_ständig_verändern,_ist_es_möglich,_das_die_Artikel_nicht_immer_ganz_auf_dem_neuesten_Stand_sind._Allerdings_versuche_ich_sie_so_
-                                                    bald_wie_möglich_zu_aktualisieren._Die_Funktionsweise_der_Freigabe_sollte_in_den_entsprechenden_Apps_aber_gleich_bleiben.) {
+        chapter (name=Dateifreigabe_per_App; hint=Da_sich_die_Apps_ständig_verändern,_ist_es_möglich,_das_die_Artikel_nicht_immer_ganz_auf_dem_neuesten_Stand_sind._Allerdings_versuche_ich_sie_so_bald_wie_möglich_zu_aktualisieren._Die_Funktionsweise_der_Freigabe_sollte_in_den_entsprechenden_Apps_aber_gleich_bleiben.) {
             text {
-                Mit der Dateifreigabe per App sind vor allem Apps wie Whatsapp, Signal, aber auch Instagram gemeint. Wie die Dateifreigabe in diesen funktioniert,
-                wird in den jeweiligen Artikeln zu den Apps behandelt.\n
-                Per App können zumeist dauerhafte Freigaben von einzelnen oder mehreren Dateien an einen oder mehrere Empfänger erstellt werden. Manche Apps bieten
-                sogar zusätzliche Möglichkeiten zur Einstellung, was eine bessere Kontrolle über die Verwendung und weitere Verbreitung von Dateien ermöglicht.\n
+                Mit der Dateifreigabe per App sind vor allem Apps wie Whatsapp, Signal, aber auch Instagram gemeint. Wie die Dateifreigabe in diesen funktioniert, wird in den jeweiligen Artikeln zu den Apps behandelt.
+                Per App können zumeist dauerhafte Freigaben von einzelnen oder mehreren Dateien an einen oder mehrere Empfänger erstellt werden. Manche Apps bieten sogar zusätzliche Möglichkeiten zur Einstellung, was eine bessere Kontrolle über die Verwendung und weitere Verbreitung von Dateien ermöglicht.
                 Folgende Apps werden in eigenen Artikeln behandelt:
             }
             unsorted-list {
@@ -66,9 +61,8 @@ article
         }
         chapter (name=Dateien_per_Cloud_freigeben) {
             text {
-                Clouds haben viele Funktionen. Während die Wolken (deutsche Übersetzung von Cloud&quot) allerdings vor allem dafür geeignet sind, Dateien wie Fotos, Videos
-                und andere Dokumente langfristig zu speichern, sodass man aber Zugriff von jedem Gerät aus hat, ist es auch möglich Dateien an andere freizugeben.\n
-                Clouds eignen sich in diesem Fall für jede der zu Beginn gestellten Fragen, solange Sender und Empfänger über Internet verfügen.\n
+                Clouds haben viele Funktionen. Während die Wolken (deutsche Übersetzung von Cloud) allerdings vor allem dafür geeignet sind, Dateien wie Fotos, Videos und andere Dokumente langfristig zu speichern, sodass man aber Zugriff von jedem Gerät aus hat, ist es auch möglich Dateien an andere freizugeben.
+                Clouds eignen sich in diesem Fall für jede der zu Beginn gestellten Fragen, solange Sender und Empfänger über Internet verfügen.
                 Folgende Cloud-Speicher werden in dieser App behandelt:
             }
             unsorted-list {

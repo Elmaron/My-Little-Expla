@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/textViewArticleTitle"
-        style="@style/Text.Title"
+        style="@style/Article.Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -28,7 +28,9 @@
         app:layout_constraintBottom_toTopOf="@+id/textViewArticleHint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewArticleTitle">
+        app:layout_constraintTop_toBottomOf="@+id/textViewArticleTitle"
+        style="@style/Article"
+        android:background="@drawable/article_card_middle_background">
 
         <LinearLayout
             android:id="@+id/LinearLayoutArticle"
@@ -39,7 +41,7 @@
 
     <TextView
         android:id="@+id/textViewArticleHint"
-        style="@style/Text.Hint"
+        style="@style/Article.Hint"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

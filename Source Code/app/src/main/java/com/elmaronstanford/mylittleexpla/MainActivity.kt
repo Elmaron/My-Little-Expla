@@ -2,6 +2,7 @@ package com.elmaronstanford.mylittleexpla
 
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Layout
@@ -9,6 +10,7 @@ import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -17,6 +19,7 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
@@ -33,32 +36,28 @@ import java.io.File
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
 
-    //private lateinit var localDatabase: LocalDatabase
+    private lateinit var myFiles: FileLoader
+    private lateinit var myArticles: List<ArticleInterpreter>
 
-    private lateinit var availableContentTypes: List<ContentType>
 
-    private val articleLengthShort: Short = 1
-    private val articleLengthMiddle: Short = 2
-    private val articleLengthLong: Short = 3
-
-    private val initializeDatabaseScope = MainScope()
-
-    //private fun databaseInitializer(): Deferred<Unit> = initializeDatabaseScope.async {
-    //    availableContentTypes = localDatabase.contentTypeDao().getContentTypes().first()
-    //}
-
-    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //LocalDatabase.createDatabase(this)
-        setContentView(R.layout.activity_initialize_database)
-        findViewById<ProgressBar>(R.id.progressBarInitializeDatabase).setProgress(0)
-        //localDatabase = LocalDatabase.getInstance(this)
-        //initializeDatabaseScope.launch {
-        //    databaseInitializer().await()
-        //}
-        findViewById<ProgressBar>(R.id.progressBarInitializeDatabase).setProgress(100)
 
+        myFiles = FileLoader(this, "articles", "aifa")
+        myArticles = mutableListOf()
+        val files = myFiles.getFileContentsFromSubfolder()
+        setContentView(R.layout.activity_initialize_database)
+        val myProgress = findViewById<ProgressBar>(R.id.progressBarInitializeDatabase)
+        myProgress.max = files.size
+        var value = 1
+        for (file in files)
+        {
+            myArticles += ArticleInterpreter(this, file) //problem!!!!
+            myProgress.progress = value
+            value++
+        }
+
+        setContentView(R.layout.activity_main)
         if(checkDisplaySize())
         {
             loadTablet()
@@ -67,7 +66,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             loadPhone()
         }
 
-        val myFiles = FileLoader(this, "articles", "aifa")
+        //
+
 
         /*
         for (contents in myFiles.getFileContentsFromSubfolder())
@@ -199,59 +199,34 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private fun loadArticles(searchContent: String, page: String)
     {
         findViewById<LinearLayout>(R.id.LinearLayoutArticleHolder).removeAllViews()
-        val myFiles = FileLoader(this, "articles", "aifa")
-        val myArticles = mutableListOf<ArticleInterpreter>()
-        for (file in myFiles.getFileContentsFromSubfolder())
-        {
-            myArticles += ArticleInterpreter(this, file)
-        }
-
         for (myArticle in myArticles)
         {
             if (myArticle.getFileContent().contains(searchContent)) //(myArticle.getArticleInfo()[0].contains(searchContent))
             {
-                if(page.equals("favourite") && myArticle.isFavourite()) {
-                    val card = LinearLayout(this)
-                    val title = TextView(this)
-                    val description = TextView(this)
+                if((page.equals("favourite") && myArticle.isFavourite())
+                    || (page.equals("recommended") && myArticle.isRecommended())
+                    || (page.equals(""))) {
+                    val card = LinearLayout(ContextThemeWrapper(this, R.style.ArticleCard))
+                    val title = TextView(ContextThemeWrapper(this, R.style.ArticleCard_Title))
+                    val description = TextView(ContextThemeWrapper(this, R.style.ArticleCard_Description))
 
                     title.setText(myArticle.getArticleInfo()[0])
                     description.setText(myArticle.getArticleInfo()[2])
 
-                    card.orientation = LinearLayout.VERTICAL
-                    card.setOnClickListener { openArticle(myArticle) }
-
-                    card.addView(title)
-                    card.addView(description)
-
-                    findViewById<LinearLayout>(R.id.LinearLayoutArticleHolder).addView(card)
-                } else if (page.equals("recommended") && myArticle.isRecommended())
-                {
-                    val card = LinearLayout(this)
-                    val title = TextView(this)
-                    val description = TextView(this)
-
-                    title.setText(myArticle.getArticleInfo()[0])
-                    description.setText(myArticle.getArticleInfo()[2])
+                    title.setTextColor(Color.BLACK)
+                    description.setTextColor(Color.BLACK)
 
                     card.orientation = LinearLayout.VERTICAL
                     card.setOnClickListener { openArticle(myArticle) }
 
-                    card.addView(title)
-                    card.addView(description)
-
-                    findViewById<LinearLayout>(R.id.LinearLayoutArticleHolder).addView(card)
-                } else if (page.equals(""))
-                {
-                    val card = LinearLayout(this)
-                    val title = TextView(this)
-                    val description = TextView(this)
-
-                    title.setText(myArticle.getArticleInfo()[0])
-                    description.setText(myArticle.getArticleInfo()[2])
-
-                    card.orientation = LinearLayout.VERTICAL
-                    card.setOnClickListener { openArticle(myArticle) }
+                    if(myArticle.getArticleInfo()[1] == "short")
+                        card.setBackgroundResource(R.drawable.article_card_ahort_background)
+                    else if(myArticle.getArticleInfo()[1] == "middle")
+                        card.setBackgroundResource(R.drawable.article_card_middle_background)
+                    else if (myArticle.getArticleInfo()[1] == "long")
+                        card.setBackgroundResource(R.drawable.article_card_long_background)
+                    else
+                        card.setBackgroundResource(R.drawable.article_background)
 
                     card.addView(title)
                     card.addView(description)
@@ -321,17 +296,42 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         } else return
 
         findViewById<TextView>(R.id.textViewArticleTitle).text = article.getArticleInfo()[0]
-        findViewById<TextView>(R.id.textViewArticleHint).text = article.getArticleInfo()[article.getArticleInfo().size-1]
-        findViewById<Button>(R.id.buttonBack).setOnClickListener { this.onBackPressed() }
+
+        val articleHint = findViewById<TextView>(R.id.textViewArticleHint)
+        articleHint.text = article.getArticleInfo()[article.getArticleInfo().size-1]
+        if(findViewById<TextView>(R.id.textViewArticleHint).text == "" || findViewById<TextView>(R.id.textViewArticleHint).text == null)
+            articleHint.visibility = View.GONE
+        else
+            articleHint.visibility = View.VISIBLE
+
+        findViewById<Button>(R.id.buttonBack).setOnClickListener {
+            if (article.getArticleInfo()[1] == "middle")
+                findViewById<LinearLayout>(R.id.LinearLayoutArticle).removeAllViews()
+            else if (article.getArticleInfo()[1] == "long")
+                findViewById<LinearLayout>(R.id.LinearLayoutArticle).removeAllViews()
+            this.onBackPressed()
+        }
 
         if(article.getArticleInfo()[1] == "short")
         {
 
         } else if (article.getArticleInfo()[1] == "middle")
         {
-            for (x in article.getContent())
+            val articleContent = article.getContent()
+            for (x in 0 until articleContent.size)
             {
-                findViewById<LinearLayout>(R.id.LinearLayoutArticle).addView(x)
+                if(x != 0) articleContent[x].setPadding(0,32,0,0)
+                findViewById<LinearLayout>(R.id.LinearLayoutArticle).addView(articleContent[x])
+                if(x != articleContent.size-1) {
+                    val chapterEndLine = View(this)
+                    chapterEndLine.setBackgroundColor(Color.BLACK)//ContextCompat.getColor(this, R.color.TextColorArticle))
+                    chapterEndLine.layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        4
+                    )
+                    chapterEndLine.setPadding(0,8,0,0)
+                    findViewById<LinearLayout>(R.id.LinearLayoutArticle).addView(chapterEndLine)
+                }
             }
         } else if (article.getArticleInfo()[1] == "long")
         {
