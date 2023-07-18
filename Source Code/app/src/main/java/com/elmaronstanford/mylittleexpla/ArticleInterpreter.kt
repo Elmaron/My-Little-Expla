@@ -37,23 +37,17 @@ class ArticleInterpreter(context: Context, pFile: String) {
 
     private lateinit var articleContent: List<LinearLayout>
 
-
-    private lateinit var chapters: List<String>
-
-
+    //RUNS AFTER THE CLASS IS CALLED FOR THE FIRST TIME. DEFINES, HOW TO SPLIT THE FILE CONTENT AND SPLITS THE FILE CONTENT BEFORE LOADING IT INTO THE APP//
     init {
         val fileSplit = pFile.split("(?<=\\}|\\{)".toRegex())
         for (split in fileSplit) {
-            /*val anotherSplit = split.split("\n")
-            for (aSplit in anotherSplit) {
-                file += aSplit
-            }*/
             file += split
         }
         if (file.size > 0)
             loadContent(file, context)
     }
 
+    //LOADS THE HEADER AND THE BODY OF THE ARTICLE//
     private fun loadContent(content: List<String>, context: Context) {
         var skipNumber: Int = -1
         for (x in content.indices) {
@@ -96,6 +90,7 @@ class ArticleInterpreter(context: Context, pFile: String) {
         }
     }
 
+    //LOADS THE HEADER AND PUTS IT INTO VARIABLES FOR FURTHER USAGE//
     private fun loadHeader(content: List<String>) {
         Log.d("ArticleInterpreter", "Header Content: $content")
         for (x in content.indices)
@@ -116,6 +111,7 @@ class ArticleInterpreter(context: Context, pFile: String) {
             }
     }
 
+    //LOADS THE BODY AND PUTS IT INTO VARIABLES FOR FURTHER USAGE//
     private fun loadBody(context: Context, content: List<String>): List<LinearLayout> {
         val myLayout = mutableListOf<LinearLayout>()
         var skipNumber: Int = -1
@@ -171,6 +167,7 @@ class ArticleInterpreter(context: Context, pFile: String) {
         return myLayout
     }
 
+    //LOADS EACH CHAPTER AND PUTS IT INTO A LINEARLAYOUT FOR FURTHER USAGE IN OTHER CLASSES//
     private class ChapterLoader(pContext: Context, pContent: List<String>, pContentType: String) {
 
         private var skipNumber: Int = -1 //Fehler: Irgendwie werden die Zahlen nicht übersprungen
@@ -424,7 +421,7 @@ class ArticleInterpreter(context: Context, pFile: String) {
                             LinearLayout.LayoutParams.MATCH_PARENT
                         )
 
-                        for (view in loadChapterRepeating(context, content, x))
+                        for (view in ChapterLoader(context, content, "chapter").getViews())
                         {
                             cardLayout.addView(view)
                         }
@@ -549,14 +546,15 @@ class ArticleInterpreter(context: Context, pFile: String) {
             //Log.d("cleanText", "Content: $newContent")
             return newContent
         }
-    }
+    } //HINT: The class calls itself if needed to load and split the content further depending on the type of content and the content itself
 
+    //RETURNS ALL CHAPTERS TOGETHER//
     public fun getContent() : List<LinearLayout>
     {
         return articleContent
     }
 
-
+    //CAN COUNT HOW LONG THE COMMAND HAS TO BE USED AS THE CONTENT TYPE//
     private fun countCommandLength(content: List<String>, start: Int): Int
     {
         var startOfCommands = 0
@@ -581,6 +579,7 @@ class ArticleInterpreter(context: Context, pFile: String) {
         return -1
     }
 
+    //CAN REMOVE OR REPLACE SPECIFIC STUFF FROM THE STRING//
     private fun removeFromString(content: String, removale: List<String>): String {
         var newContent = content
         newContent = newContent.replace(" ", "")
@@ -592,6 +591,7 @@ class ArticleInterpreter(context: Context, pFile: String) {
         return newContent
     }
 
+    //ALMOST LIKE "removeFromString" BUT DOESN'T REMOVE SPACES//
     private fun cleanText(content: String, removale: List<String>): String {
         var newContent = content
         newContent = newContent.replace("  ", "")
@@ -603,21 +603,25 @@ class ArticleInterpreter(context: Context, pFile: String) {
         return newContent
     }
 
+    //RETURNS EVERYTHING FROM THE HEADER AS A STRING//
     public fun getArticleInfo() : List<String>
     {
         return mutableListOf(title, type, description, article_hint)
     }
 
+    //RETURNS IF THE ARTICLE IS SET AS RECOMMENDED//
     public fun isRecommended() : Boolean
     {
         return recommended
     }
 
+    //RETURNS IF THE ARTICLE IS SET AS FAVOURITE//
     public fun isFavourite() : Boolean
     {
         return favourite
     }
 
+    //RETURNS THE VALUE FROM A STRING AS A CLEANED UP STRING THAT CAN BE TURNED INTO AN INT IF NECESSARY//
     private fun getValue(content: String, removale: String): String
     {
         val newContent = removeFromString(content, mutableListOf("{", "}"))
@@ -627,6 +631,7 @@ class ArticleInterpreter(context: Context, pFile: String) {
             return newContent.split(removale + "=")[0]
     }
 
+    //ALMOST LIKE "getValue" BUT USES "cleanText" instead of "removeFromString" WHICH DOESN'T REMOVE NORMAL SPACES//
     private fun getCleanValue(content: String, removale: String): String
     {
         val newContent = cleanText(content, mutableListOf("{", "}"))
@@ -636,19 +641,10 @@ class ArticleInterpreter(context: Context, pFile: String) {
             return newContent.split(removale + "=")[0]
     }
 
+    //RETURNS THE WHOLE CONTENT IN A UNSORTED WAY. IS USED FOR TESTING PURPOSES ONLY//
     public fun getFileContent(): String
     {
         return removeFromString(file.toString(), mutableListOf("{", "}", "header", "body", "type", "title", "description", "icon",
             "article-hint", "article-interpreter-for-apps", "article", "text", "unsorted-list", "image", "sorted-list", "element", ",", ".", "[", "]"))
     }
-
-    private fun getElements(content: String, keyword: String): Boolean {
-        return content.contains("{") && content.contains(keyword)
-    }
-
-    public fun getTestFile() : List<String> { return file }
-
-    private data class preDefined(
-        val articleType: List<String> = mutableListOf("short", "middle", "long"),
-    )
 }

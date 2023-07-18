@@ -45,62 +45,29 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private lateinit var myArticles: List<ArticleInterpreter>
 
 
+    //LOADS THE FILES INTO MEMORY AND CHANGES ALL SETTINGS ACCORDING TO DEVICE, AFTER OPENING THE APP//
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        myFiles = FileLoader(this, "articles", "aifa")
-        myArticles = mutableListOf()
-        val files = myFiles.getFileContentsFromSubfolder()
-        setContentView(R.layout.activity_initialize_database)
-        val myProgress = findViewById<ProgressBar>(R.id.progressBarInitializeDatabase)
-        myProgress.max = files.size
-        var value = 1
-        for (file in files)
-        {
-            myArticles += ArticleInterpreter(this, file) //problem!!!!
-            myProgress.progress = value
-            value++
-        }
-
-        setContentView(R.layout.activity_main)
-        if(checkDisplaySize())
-        {
-            loadTablet()
-        } else
-        {
-            loadPhone()
-        }
-
-        //
-
-
-        /*
-        for (contents in myFiles.getFileContentsFromSubfolder())
-        {
-            for (test in ArticleInterpreter(this, contents).getTestFile())
-            Log.d("ArticleInterpreter", test)
-        }*/
-
-        // Log the inserted data from the database
+        loadDatabase()
+        if(checkDisplaySize()) loadTablet()
+        else loadPhone()
     }
 
+    //THIS FUNCTION OVERRIDES, WHAT THE BACK-BUTTON FROM THE SYSTEM DOES WITHIN THE APP//
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        if(checkDisplaySize())
-        {
-            super.onBackPressed()
-        } else
-        {
-            loadPhone()
-        }
+        if(checkDisplaySize()) super.onBackPressed()
+        else loadPhone()
     }
 
+    //THIS FUNCTION RETURNS TRUE, IF THE SCREEN SIZE IS LARGE OR XLARGE, WHICH IS TRUE FOR DEVICES LIKE TABLETS OR TVS//
     private fun checkDisplaySize(): Boolean
     {
         return (resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK == Configuration.SCREENLAYOUT_SIZE_LARGE) ||
                 (resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK == Configuration.SCREENLAYOUT_SIZE_XLARGE)
     }
 
+    //THIS FUNCTION ADDS FUNCTIONS ACCORDING TO THE LAYOUT FOR PHONES//
     private fun loadPhone()
     {
         setContentView(R.layout.activity_main)
@@ -109,6 +76,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         findViewById<BottomNavigationView>(R.id.bottom_menu).selectedItemId = R.id.menu_recommended
     }
 
+    //THIS FUNCTION ADDS FUNCTIONS ACCORDING TO THE LAYOUT FOR TABLETS OR DEVICES WITH LARGER SCREENS//
     private fun loadTablet()
     {
         setContentView(R.layout.activity_main)
@@ -124,93 +92,53 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
+    //THIS FUNCTION DECIDES, WHAT HAPPENS, IF YOU PRESS ONE OF THE MENÜ ITEMS-BUTTONS//
     override fun onNavigationItemSelected(item: MenuItem): Boolean
     {
         findViewById<ConstraintLayout>(R.id.constraintLayoutMenuHolder).removeAllViews()
+
+        var layoutID = when (item.itemId) {
+            R.id.menu_favourites    -> R.layout.activity_favourites
+            R.id.menu_recommended   -> R.layout.activity_recommended
+            R.id.menu_add_articles  -> return true
+            R.id.menu_categorys     -> R.layout.activity_categories
+            R.id.menu_search        -> R.layout.activity_search
+            else                    -> return false
+        }
+
+        findViewById<ConstraintLayout>(R.id.constraintLayoutMenuHolder).addView(
+            LayoutInflater.from(this).inflate(layoutID, null),
+            ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT
+            ))
+
+        loadArticles(layoutID)
+
         if(findViewById<EditText>(R.id.editTextSearchField) != null)
         {
-            val searchField = findViewById<EditText>(R.id.editTextSearchField)
-            searchField.setText("")
+            findViewById<EditText>(R.id.editTextSearchField).setText("")
+            findViewById<EditText>(R.id.editTextSearchField).doOnTextChanged{ text, start, before, count ->
+                run {
+                    loadArticles(text.toString(), layoutID)
+                }
+            }
         }
-        when (item.itemId) {
-            R.id.menu_favourites -> {
-                findViewById<ConstraintLayout>(R.id.constraintLayoutMenuHolder).addView(
-                    LayoutInflater.from(this).inflate(R.layout.activity_favourites, null),
-                    ConstraintLayout.LayoutParams(
-                        ConstraintLayout.LayoutParams.MATCH_PARENT,
-                        ConstraintLayout.LayoutParams.MATCH_PARENT
-                    ))
-                loadArticles("favourite")
-                findViewById<EditText>(R.id.editTextSearchField).doOnTextChanged{ text, start, before, count ->
-                    run {
-                        loadArticles(text.toString(), "favourite")
-                    }
-                }
-                return true
-            }
-            R.id.menu_recommended -> {
-                findViewById<ConstraintLayout>(R.id.constraintLayoutMenuHolder).addView(
-                    LayoutInflater.from(this).inflate(R.layout.activity_recommended, null),
-                    ConstraintLayout.LayoutParams(
-                        ConstraintLayout.LayoutParams.MATCH_PARENT,
-                        ConstraintLayout.LayoutParams.MATCH_PARENT
-                    ))
-                loadArticles("recommended")//loadArticles(localDatabase.articleDao().getRecommendedID(), this)
-                findViewById<EditText>(R.id.editTextSearchField).doOnTextChanged{ text, start, before, count ->
-                    run {
-                        loadArticles(text.toString(), "recommended")
-                    }
-                }
-                return true
-            }
-            R.id.menu_add_articles -> {
-                /*findViewById<ConstraintLayout>(R.id.constraintLayoutMenuHolder).addView(
-                    LayoutInflater.from(this).inflate(R.layout.activity_add_article, null),
-                    ConstraintLayout.LayoutParams(
-                        ConstraintLayout.LayoutParams.MATCH_PARENT,
-                        ConstraintLayout.LayoutParams.MATCH_PARENT
-                    )) // */
-                return true
-            }
-            R.id.menu_categorys -> {
-                findViewById<ConstraintLayout>(R.id.constraintLayoutMenuHolder).addView(
-                    LayoutInflater.from(this).inflate(R.layout.activity_categories, null),
-                    ConstraintLayout.LayoutParams(
-                        ConstraintLayout.LayoutParams.MATCH_PARENT,
-                        ConstraintLayout.LayoutParams.MATCH_PARENT
-                    ))
-                return true
-            }
-            R.id.menu_search -> {
-                findViewById<ConstraintLayout>(R.id.constraintLayoutMenuHolder).addView(
-                    LayoutInflater.from(this).inflate(R.layout.activity_search, null),
-                    ConstraintLayout.LayoutParams(
-                        ConstraintLayout.LayoutParams.MATCH_PARENT,
-                        ConstraintLayout.LayoutParams.MATCH_PARENT
-                    ))
-                loadArticles("")
-                findViewById<EditText>(R.id.editTextSearchField).doOnTextChanged{ text, start, before, count ->
-                    run {
-                       loadArticles(text.toString(), "")
-                    }
-                }
-                return true
-            }
-            else -> return false
-        }
+
+        return true
     }
 
-    private fun loadArticles(searchContent: String, page: String)
+    //THIS FUNCTION LOADS THE ARTICLES AS CARDS AND SHOWS THEM ON THE SPECIFIC SIDES, IF THEY ARE PART OF THAT SPECIFIC CONTENT TYPE//
+    private fun loadArticles(searchContent: String, page: Int)
     {
         findViewById<LinearLayout>(R.id.LinearLayoutArticleHolder).removeAllViews()
         for (myArticle in myArticles)
         {
-            if (myArticle.getFileContent().contains(searchContent)) //(myArticle.getArticleInfo()[0].contains(searchContent))
+            if (myArticle.getFileContent().contains(searchContent))
             {
-                if((page.equals("favourite") && myArticle.isFavourite())
-                    || (page.equals("recommended") && myArticle.isRecommended())
-                    || (page.equals(""))) {
+                if((page == R.layout.activity_favourites && myArticle.isFavourite())
+                    || (page == R.layout.activity_recommended && myArticle.isRecommended())
+                    || page != R.layout.activity_favourites && page != R.layout.activity_recommended) {
                     val card = LinearLayout(ContextThemeWrapper(this, R.style.ArticleCard))
                     val title = TextView(ContextThemeWrapper(this, R.style.ArticleCard_Title))
                     val description = TextView(ContextThemeWrapper(this, R.style.ArticleCard_Description))
@@ -246,65 +174,40 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 }
             }
         }
-    }
+    } //HINT: This function should be replaced be a function which loads another layout and changes settings according to the article type etc.
 
-    private fun loadArticles(page: String) {
+    //THIS FUNCTION DOES RUN THE SAME FUNCTION AS ABOVE, BUT WITHOUT ANY SEARCH INPUT//
+    private fun loadArticles(page: Int) {
         loadArticles("", page)
     }
 
+    //THIS FUNCTION LOADS ALL CONTENT OF AN ARTICLE PREDEFINED IN THE ARTICLEINTERPRETER CLASS//
     private fun openArticle(article: ArticleInterpreter)
     {
         Log.d("MainActivity", "Opening Article")
-        if(article.getArticleInfo()[1] == "short")
+        // -- Determines how to load the article -- //
+        var layoutID = when(article.getArticleInfo()[1])
         {
-            if(checkDisplaySize())
-            {
-                findViewById<ConstraintLayout>(R.id.OpenedArticles).removeAllViews()
-                findViewById<ConstraintLayout>(R.id.OpenedArticles).addView(
-                    LayoutInflater.from(this).inflate(R.layout.activity_article_short, null),
-                    ConstraintLayout.LayoutParams(
-                        ConstraintLayout.LayoutParams.MATCH_PARENT,
-                        ConstraintLayout.LayoutParams.MATCH_PARENT
-                    )
-                )
-            } else
-            {
-                setContentView(R.layout.activity_article_short)
-            }
-        } else if (article.getArticleInfo()[1] == "middle")
-        {
-            if(checkDisplaySize())
-            {
-                findViewById<ConstraintLayout>(R.id.OpenedArticles).removeAllViews()
-                findViewById<ConstraintLayout>(R.id.OpenedArticles).addView(
-                    LayoutInflater.from(this).inflate(R.layout.activity_article_middle, null),
-                    ConstraintLayout.LayoutParams(
-                        ConstraintLayout.LayoutParams.MATCH_PARENT,
-                        ConstraintLayout.LayoutParams.MATCH_PARENT
-                    )
-                )
-            } else
-            {
-                setContentView(R.layout.activity_article_middle)
-            }
+            "short"  -> R.layout.activity_article_short
+            "middle" -> R.layout.activity_article_middle
+            "long"   -> R.layout.activity_article_long
+            else     -> return
+        }
 
-        } else if (article.getArticleInfo()[1] == "long")
+        // -- Determines how to load for which devices -- //
+        if(checkDisplaySize())
         {
-            if(checkDisplaySize())
-            {
-                findViewById<ConstraintLayout>(R.id.OpenedArticles).removeAllViews()
-                findViewById<ConstraintLayout>(R.id.OpenedArticles).addView(
-                    LayoutInflater.from(this).inflate(R.layout.activity_article_long, null),
-                    ConstraintLayout.LayoutParams(
-                        ConstraintLayout.LayoutParams.MATCH_PARENT,
-                        ConstraintLayout.LayoutParams.MATCH_PARENT
-                    )
+            findViewById<ConstraintLayout>(R.id.OpenedArticles).removeAllViews()
+            findViewById<ConstraintLayout>(R.id.OpenedArticles).addView(
+                LayoutInflater.from(this).inflate(layoutID, null),
+                ConstraintLayout.LayoutParams(
+                    ConstraintLayout.LayoutParams.MATCH_PARENT,
+                    ConstraintLayout.LayoutParams.MATCH_PARENT
                 )
-            } else
-            {
-                setContentView(R.layout.activity_article_long)
-            }
-        } else return
+            )
+
+        } else setContentView(layoutID)
+
 
         findViewById<TextView>(R.id.textViewArticleTitle).text = article.getArticleInfo()[0]
 
@@ -383,6 +286,29 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     // Perform action when the tab is reselected (optional)
                 }
             })
+        }
+    }
+
+
+    //READS ALL ARTICLES AND LOADS THEM IN THE MEMORY, WHILE SHOWING A LOADING SCREEN//
+    private fun loadDatabase()
+    {
+        myFiles = FileLoader(this, "articles", "aifa")
+        myArticles = mutableListOf()
+
+        setContentView(R.layout.activity_initialize_database)
+
+        val files = myFiles.getFileContentsFromSubfolder()
+        val myProgress = findViewById<ProgressBar>(R.id.progressBarInitializeDatabase)
+
+        myProgress.max = files.size
+        var value = 1
+
+        for (file in files)
+        {
+            myArticles += ArticleInterpreter(this, file) //problem!!!!
+            myProgress.progress = value
+            value++
         }
     }
 
